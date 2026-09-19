@@ -89,3 +89,11 @@ input[type='range'][class~='light-temperature']::-ms-fill-lower {
      usable on a phone. */
   min-width: 6rem;
 }
+
+/* An editable number sizes itself rather than taking a grid column: `col-5` is
+   a percentage of a row, and the cell these sit in is a flex box, so the input
+   collapsed to the width of its spinner arrows. */
+.numberInput {
+  width: 6rem;
+  flex: 0 0 auto;
+}
