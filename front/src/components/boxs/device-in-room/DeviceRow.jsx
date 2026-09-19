@@ -29,6 +29,7 @@ import CameraPresetDeviceFeature from './device-features/CameraPresetDeviceFeatu
 import VacuumCleanerModeDeviceFeature from './device-features/VacuumCleanerModeDeviceFeature';
 import VacuumCleanerCleanModeDeviceFeature from './device-features/VacuumCleanerCleanModeDeviceFeature';
 import WaterHeaterModeDeviceFeature from './device-features/WaterHeaterModeDeviceFeature';
+import TextDeviceFeature from './device-features/TextDeviceFeature';
 import TextSelectDeviceFeature from './device-features/TextSelectDeviceFeature';
 
 // DeviceRow is the per-FEATURE registry, and it is not only used by the dashboard widgets: the
@@ -124,6 +125,7 @@ const ROW_TYPE_BY_CATEGORY_AND_TYPE = {
   // A dynamic select: its options are string values discovered on the appliance by the
   // integration (installed TV apps, HDMI sources...), declared through supported_options
   [DEVICE_FEATURE_CATEGORIES.TEXT]: {
+    [DEVICE_FEATURE_TYPES.TEXT.TEXT]: TextDeviceFeature,
     [DEVICE_FEATURE_TYPES.TEXT.SELECT]: TextSelectDeviceFeature
   }
 };
