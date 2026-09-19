@@ -6550,5 +6550,8 @@
     "closed": "Fermé",
     "on": "Allumé",
     "off": "Éteint"
+  },
+  "deviceFeature": {
+    "secretPlaceholder": "Nouvelle valeur — non affichée une fois enregistrée"
   }
 }

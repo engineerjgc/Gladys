@@ -29,6 +29,17 @@ async function setValue(device, deviceFeature, value, options = {}) {
   const isSelectFeature =
     deviceFeature.category === DEVICE_FEATURE_CATEGORIES.TEXT &&
     deviceFeature.type === DEVICE_FEATURE_TYPES.TEXT.SELECT;
+  const isSecretFeature =
+    deviceFeature.category === DEVICE_FEATURE_CATEGORIES.TEXT &&
+    deviceFeature.type === DEVICE_FEATURE_TYPES.TEXT.SECRET;
+  // A secret is delivered to the service and then forgotten. It is not saved
+  // whatever the feature declares, because "write-only" that depends on an
+  // integration having set has_feedback correctly is not write-only: a
+  // passphrase persisted once is persisted in the database, in the API
+  // responses and, with keep_history, in the state history.
+  if (isSecretFeature) {
+    return;
+  }
   if (!deviceFeature.has_feedback) {
     if (isSelectFeature) {
       // A select state is always its string form, even when the selected option value

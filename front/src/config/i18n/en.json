@@ -6550,5 +6550,8 @@
     "closed": "Closed",
     "on": "On",
     "off": "Off"
+  },
+  "deviceFeature": {
+    "secretPlaceholder": "New value — not shown once saved"
   }
 }

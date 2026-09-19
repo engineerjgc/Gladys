@@ -126,6 +126,7 @@ const ROW_TYPE_BY_CATEGORY_AND_TYPE = {
   // integration (installed TV apps, HDMI sources...), declared through supported_options
   [DEVICE_FEATURE_CATEGORIES.TEXT]: {
     [DEVICE_FEATURE_TYPES.TEXT.TEXT]: TextDeviceFeature,
+    [DEVICE_FEATURE_TYPES.TEXT.SECRET]: TextDeviceFeature,
     [DEVICE_FEATURE_TYPES.TEXT.SELECT]: TextSelectDeviceFeature
   }
 };
