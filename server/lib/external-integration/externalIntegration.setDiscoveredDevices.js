@@ -85,7 +85,17 @@ async function setDiscoveredDevices(service, devices) {
       // the selector is derived and made unique by the core at creation
       // (buildUniqueSelector): an integration publishes none, and dropping it
       // here keeps the Discovery screen from posting one back to POST /device
-      const { selector: publishedFeatureSelector, ...featureWithoutSelector } = feature;
+      //
+      // `icon` goes the same way, for a different reason: it belongs to the
+      // USER. An integration that polls every minute would otherwise reset a
+      // chosen icon on every cycle, and the choice would look like it had
+      // never been saved. The category/type map remains the default; this
+      // column is only ever written from the device editor.
+      const {
+        selector: publishedFeatureSelector,
+        icon: publishedFeatureIcon,
+        ...featureWithoutSelector
+      } = feature;
       if (feature.supported_options !== undefined) {
         // labeled option lists (camera presets, supported movements, AC modes...);
         // string option values only exist on dynamic selects (installed TV apps,

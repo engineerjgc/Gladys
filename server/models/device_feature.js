@@ -1,3 +1,4 @@
+const iconList = require('../config/icons.json');
 const { addSelectorBeforeValidateHook } = require('../utils/addSelector');
 const {
   DEVICE_FEATURE_CATEGORIES_LIST,
@@ -68,6 +69,20 @@ module.exports = (sequelize, DataTypes) => {
       unit: {
         allowNull: true,
         type: DataTypes.ENUM(DEVICE_FEATURE_UNITS_LIST),
+      },
+      // A user-chosen icon, overriding the one implied by category and type.
+      // Null is the normal state and means "work it out", which is what every
+      // feature did before this column existed.
+      icon: {
+        allowNull: true,
+        type: DataTypes.STRING,
+        validate: {
+          isKnownIcon(value) {
+            if (value !== null && value !== undefined && !iconList.includes(value)) {
+              throw new Error(`icon: ${value} is not one of the available icons`);
+            }
+          },
+        },
       },
       min: {
         allowNull: false,

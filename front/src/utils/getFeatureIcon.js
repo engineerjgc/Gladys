@@ -12,8 +12,9 @@ import { DeviceFeatureCategoriesIcon } from './consts';
  * two had no fallback at all and rendered `fe fe-undefined` for any pair the
  * map happened not to hold.
  *
- * One place to ask means one place to change, which is what makes a
- * per-feature icon override a small change rather than a sweep.
+ * A user's own choice wins over the pair. The map is the DEFAULT — a sensible
+ * guess from what the feature is — and the person looking at the dashboard
+ * gets the last word, which is the whole point of the `icon` column.
  *
  * @param {object} deviceFeature - The feature, needing `category` and `type`.
  * @param {string} [fallback] - Drawn when the pair is not in the map.
@@ -24,6 +25,9 @@ import { DeviceFeatureCategoriesIcon } from './consts';
 export function getFeatureIcon(deviceFeature, fallback = 'sliders') {
   if (!deviceFeature) {
     return fallback;
+  }
+  if (deviceFeature.icon) {
+    return deviceFeature.icon;
   }
   return get(DeviceFeatureCategoriesIcon, `${deviceFeature.category}.${deviceFeature.type}`, {
     default: fallback,

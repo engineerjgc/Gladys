@@ -64,6 +64,17 @@ describe('externalIntegration.setDiscoveredDevices', () => {
     expect(devices[0].features[0]).to.not.have.property('selector');
   });
 
+  it('should drop an icon published by the integration', async () => {
+    // The icon belongs to the user, not to the integration. An integration
+    // polling every minute would otherwise reset a chosen icon on every
+    // cycle, and the choice would look as though it had never saved.
+    const device = buildDiscoveredDevice(service.selector);
+    device.features[0].icon = 'chosen-by-the-integration';
+    await externalIntegration.setDiscoveredDevices(service, [device]);
+    const devices = await externalIntegration.getDiscoveredDevices(service.selector);
+    expect(devices[0].features[0]).to.not.have.property('icon');
+  });
+
   it('should replace the previous list', async () => {
     await externalIntegration.setDiscoveredDevices(service, [buildDiscoveredDevice(service.selector, 'one')]);
     await externalIntegration.setDiscoveredDevices(service, [buildDiscoveredDevice(service.selector, 'two')]);
