@@ -121,7 +121,10 @@ describe('Device', () => {
     sinonAssert.notCalled(device.saveStringState);
     sinonAssert.notCalled(device.saveState);
   });
-  it('should deliver a secret to the service but never save it', async () => {
+  it('should save a secret exactly as it saves text', async () => {
+    // A secret is SENSITIVE, not unreadable: the UI masks it and offers to
+    // reveal it. An appliance that will not hand a value back simply never
+    // publishes a state for it.
     const stateManager = new StateManager(event);
     const serviceSetValue = fake.resolves(null);
     const service = {
@@ -142,34 +145,7 @@ describe('Device', () => {
     };
     await device.setValue(gladysDevice, deviceFeature, 'correct-horse-battery');
     sinonAssert.calledWith(serviceSetValue, gladysDevice, deviceFeature, 'correct-horse-battery');
-    sinonAssert.notCalled(device.saveStringState);
-    sinonAssert.notCalled(device.saveState);
-  });
-
-  it('should not save a secret even when the feature asks for history', async () => {
-    // A write-only that depends on an integration declaring has_feedback or
-    // keep_history correctly is not write-only. The refusal is the server's.
-    const stateManager = new StateManager(event);
-    const serviceSetValue = fake.resolves(null);
-    const service = {
-      getService: () => ({
-        device: {
-          setValue: serviceSetValue,
-        },
-      }),
-    };
-    const device = new Device(event, {}, stateManager, service, {}, {}, job);
-    device.saveState = fake.resolves(null);
-    device.saveStringState = fake.resolves(null);
-    const gladysDevice = { service: { name: 'my-service' } };
-    const deviceFeature = {
-      category: DEVICE_FEATURE_CATEGORIES.TEXT,
-      type: DEVICE_FEATURE_TYPES.TEXT.SECRET,
-      has_feedback: false,
-      keep_history: true,
-    };
-    await device.setValue(gladysDevice, deviceFeature, 'correct-horse-battery');
-    sinonAssert.notCalled(device.saveStringState);
+    sinonAssert.calledWith(device.saveStringState, gladysDevice, deviceFeature, 'correct-horse-battery');
     sinonAssert.notCalled(device.saveState);
   });
 

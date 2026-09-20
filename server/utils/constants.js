@@ -1312,11 +1312,12 @@ const DEVICE_FEATURE_TYPES = {
     // fan speeds...) keep their own category/type with integer values: this type is only
     // for lists no generic value set can describe.
     SELECT: 'select',
-    // A write-only string: a passphrase, a token, an API key. It is NEVER
-    // stored — device.setValue refuses to persist it — so there is no state,
-    // no history and nothing to read back, and the front renders it masked
-    // and empty rather than showing a value it does not have. The integration
-    // receives the string, does something with it, and Gladys forgets it.
+    // A sensitive string: a passphrase, a token, an API key. Stored and
+    // handled exactly as `text` is — what makes it a secret is the UI, which
+    // masks it and offers to reveal it on request rather than printing it on
+    // a dashboard for anyone walking past. An integration whose appliance
+    // will not hand the value back simply never publishes a state, and the
+    // field stays empty.
     SECRET: 'secret',
   },
   RISK: {

@@ -21,10 +21,11 @@ import style from './style.css';
  * authoritative value — the one the appliance confirmed, rather than the one
  * that was typed at it.
  *
- * A SECRET never shows a stored value, because there is never one to show:
- * the server refuses to persist it. It can be revealed WHILE BEING TYPED,
- * which is the only thing there is to reveal, and is how somebody checks they
- * typed a passphrase correctly before committing it.
+ * A SECRET is the same control with the characters masked. It is sensitive
+ * rather than unreadable: the value is there, a dashboard simply does not
+ * print it for anyone walking past, and the eye reveals it when its owner
+ * asks. An appliance that will not hand a value back publishes no state and
+ * the field is empty, which is the honest thing to show in that case.
  */
 class TextDeviceFeature extends Component {
   state = { draft: null, revealed: false };
@@ -39,13 +40,13 @@ class TextDeviceFeature extends Component {
 
   commit = e => {
     this.props.updateValueWithDebounce(this.props.deviceFeature, e.target.value);
-    // A secret leaves nothing behind: not in the box, not in component state,
-    // and not on screen if it was being revealed.
+    // Back to showing the authoritative value, and masked again: revealing is
+    // a deliberate act each time rather than a mode the row stays in.
     this.setState({ draft: null, revealed: false });
   };
 
   render({ deviceFeature, rowName }, { draft, revealed }) {
-    const stored = this.isSecret ? '' : deviceFeature.last_value_string || '';
+    const stored = deviceFeature.last_value_string || '';
     const displayed = draft === null ? stored : draft;
 
     return (

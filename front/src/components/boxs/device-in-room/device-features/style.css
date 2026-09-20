@@ -126,9 +126,14 @@ input[type='range'][class~='light-temperature']::-ms-fill-lower {
 }
 
 /* Suppress the browser's own reveal, so there is one control rather than two.
-   Chromium and Edge each provide their own and Firefox provides none, so
-   leaving them in place means a different control on every browser and two
-   of them on some. */
+   Every engine has grown its own and they are all spelled differently:
+   Chromium and Safari use the -webkit- credential buttons, Edge uses
+   -ms-reveal, and Gecko (Firefox, Waterfox) uses -moz-reveal. Missing one
+   means two eyes side by side on that browser and one everywhere else. */
+.secretInput::-moz-reveal {
+  display: none;
+}
+
 .secretInput::-ms-reveal,
 .secretInput::-ms-clear {
   display: none;
