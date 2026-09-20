@@ -6,8 +6,8 @@ import {
   DEVICE_FEATURE_UNITS_BY_CATEGORY,
   DEVICE_FEATURE_UNITS_BY_CATEGORY_AND_TYPE
 } from '../../../../server/utils/constants';
-import { DeviceFeatureCategoriesIcon } from '../../utils/consts';
 import get from 'get-value';
+import { getFeatureIcon } from '../../utils/getFeatureIcon';
 
 const DEVICE_FEATURE_COMPATIBLE_CATEGORY = {
   [DEVICE_FEATURE_TYPES.SWITCH.BINARY]: [DEVICE_FEATURE_CATEGORIES.LIGHT, DEVICE_FEATURE_CATEGORIES.SWITCH],
@@ -49,7 +49,7 @@ class UpdateDeviceFeature extends Component {
       <div class="col-md-4">
         <div class="card">
           <div class="card-header">
-            <i class={`mr-2 fe fe-${get(DeviceFeatureCategoriesIcon, `${feature.category}.${feature.type}`)}`} />
+            <i class={`mr-2 fe fe-${getFeatureIcon(feature)}`} />
             <Text id={`deviceFeatureCategory.${feature.category}.${feature.type}`} />
           </div>
           <div class="card-body">

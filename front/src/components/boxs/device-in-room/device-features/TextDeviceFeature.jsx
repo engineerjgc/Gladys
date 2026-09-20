@@ -1,8 +1,7 @@
 import { Text, Localizer } from 'preact-i18n';
-import get from 'get-value';
 
 import { DEVICE_FEATURE_TYPES } from '../../../../../../server/utils/constants';
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 /**
  * A free-text value the user can edit from a dashboard. The server already stores
@@ -38,7 +37,7 @@ const TextDeviceFeature = ({ children, ...props }) => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`, { default: 'type' })}`} />
+        <i class={`fe fe-${getFeatureIcon({ category, type }, 'type')}`} />
       </td>
       <td>{props.rowName}</td>
 

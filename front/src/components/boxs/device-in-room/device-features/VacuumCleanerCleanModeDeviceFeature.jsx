@@ -1,8 +1,7 @@
-import get from 'get-value';
 import { Text } from 'preact-i18n';
 
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
 import { VACUUM_CLEANER_CLEAN_MODE } from '../../../../../../server/utils/constants';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 const VacuumCleanerCleanModeDeviceFeature = ({ children, ...props }) => {
   const { deviceFeature } = props;
@@ -15,7 +14,7 @@ const VacuumCleanerCleanModeDeviceFeature = ({ children, ...props }) => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`, { default: 'settings' })}`} />
+        <i class={`fe fe-${getFeatureIcon({ category, type }, 'settings')}`} />
       </td>
       <td>{props.rowName}</td>
 

@@ -1,8 +1,7 @@
-import get from 'get-value';
 import { Text } from 'preact-i18n';
 
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
 import { FAN_MODE } from '../../../../../../server/utils/constants';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 const FanModeDeviceFeature = ({ children, ...props }) => {
   const { deviceFeature } = props;
@@ -17,7 +16,7 @@ const FanModeDeviceFeature = ({ children, ...props }) => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`, { default: 'wind' })}`} />
+        <i class={`fe fe-${getFeatureIcon({ category, type }, 'wind')}`} />
       </td>
       <td>{props.rowName}</td>
 

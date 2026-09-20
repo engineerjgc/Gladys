@@ -4,7 +4,7 @@ import get from 'get-value';
 import cx from 'classnames';
 
 import { MANAGED_FEATURES } from '../features';
-import { DeviceFeatureCategoriesIcon } from '../../../../../../utils/consts';
+import { getFeatureIcon } from '../../../../../../utils/getFeatureIcon';
 
 class RemoteFeatureEdition extends Component {
   delete = () => {
@@ -60,7 +60,7 @@ class RemoteFeatureEdition extends Component {
           <div class="col">
             <div class="input-icon">
               <span class="input-icon-addon">
-                <i class={`fe fe-${DeviceFeatureCategoriesIcon[category][type]}`} />
+                <i class={`fe fe-${getFeatureIcon({ category, type })}`} />
               </span>
               <Localizer>
                 <input

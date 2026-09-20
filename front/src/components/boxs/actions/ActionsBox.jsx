@@ -5,9 +5,9 @@ import cx from 'classnames';
 import get from 'get-value';
 
 import { WEBSOCKET_MESSAGE_TYPES, COVER_STATE } from '../../../../../server/utils/constants';
-import { DeviceFeatureCategoriesIcon } from '../../../utils/consts';
 import { isCoverStateFeature, isToggleableBinaryFeature } from './actionableFeatures';
 import style from './style.css';
+import { getFeatureIcon } from '../../../utils/getFeatureIcon';
 
 const SCENE_START_FEEDBACK_MS = 1200;
 
@@ -134,7 +134,7 @@ class ActionsBox extends Component {
     }
     const feature = get(this.state, `featuresBySelector.${action.device_feature}`);
     if (feature) {
-      const icon = get(DeviceFeatureCategoriesIcon, `${feature.category}.${feature.type}`);
+      const icon = getFeatureIcon(feature);
       if (icon) {
         return icon;
       }

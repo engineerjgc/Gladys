@@ -1,11 +1,10 @@
-import get from 'get-value';
 import { Text } from 'preact-i18n';
 import cx from 'classnames';
 
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
 import { DEVICE_FEATURE_CATEGORIES } from '../../../../../../server/utils/constants';
 
 import style from './style.css';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 const isNullOrUndefined = val => val === null || val === undefined;
 
@@ -70,13 +69,7 @@ const SetpointDeviceFeature = ({ children, ...props }) => {
   return (
     <tr>
       <td>
-        <i
-          class={`fe fe-${get(
-            DeviceFeatureCategoriesIcon,
-            `${props.deviceFeature.category}.${props.deviceFeature.type}`,
-            { default: 'hash' }
-          )}`}
-        />
+        <i class={`fe fe-${getFeatureIcon(props.deviceFeature, 'hash')}`} />
       </td>
       <td>{props.rowName}</td>
 

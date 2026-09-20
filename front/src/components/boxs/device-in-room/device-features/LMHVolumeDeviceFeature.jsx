@@ -1,9 +1,8 @@
-import get from 'get-value';
 import { Text } from 'preact-i18n';
 import cx from 'classnames';
 
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
 import { SIREN_LMH_VOLUME } from '../../../../../../server/utils/constants';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 const LMHVolumeDeviceFeature = ({ children, ...props }) => {
   const { deviceFeature } = props;
@@ -28,7 +27,7 @@ const LMHVolumeDeviceFeature = ({ children, ...props }) => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`, { default: 'sliders' })}`} />
+        <i class={`fe fe-${getFeatureIcon({ category, type }, 'sliders')}`} />
       </td>
       <td>{props.rowName}</td>
 

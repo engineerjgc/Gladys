@@ -11,10 +11,10 @@ import {
   DEVICE_FEATURE_TYPES,
   OPENING_SENSOR_STATE
 } from '../../../../../server/utils/constants';
-import { DeviceFeatureCategoriesIcon } from '../../../utils/consts';
 import DeviceFeatureValueText from '../../device/DeviceFeatureValueText';
 import get from 'get-value';
 import style from './style.css';
+import { getFeatureIcon } from '../../../utils/getFeatureIcon';
 
 dayjs.extend(localizedFormat);
 
@@ -209,7 +209,7 @@ class ChipsBox extends Component {
       return chip.icon;
     }
     if (chip.chip_type === 'device-feature' && data && data.feature) {
-      const icon = get(DeviceFeatureCategoriesIcon, `${data.feature.category}.${data.feature.type}`);
+      const icon = getFeatureIcon(data.feature);
       if (icon) {
         return icon;
       }

@@ -2,7 +2,6 @@ import { createElement } from 'preact';
 import get from 'get-value';
 
 import { DEVICE_FEATURE_CATEGORIES, DEVICE_FEATURE_TYPES } from '../../../../../../../server/utils/constants';
-import { DeviceFeatureCategoriesIcon } from '../../../../../utils/consts';
 
 import BatteryLevelFeature from './BatteryLevelFeature';
 import BinaryDeviceValue from './BinaryDeviceValue';
@@ -26,6 +25,7 @@ import ThermostatOperatingStateDeviceValue from './ThermostatOperatingStateDevic
 import ChargingStationConnectorStatusDeviceValue from './ChargingStationConnectorStatusDeviceValue';
 import ChargingStationChargingStateDeviceValue from './ChargingStationChargingStateDeviceValue';
 import SirenAlarmStateDeviceValue from './SirenAlarmStateDeviceValue';
+import { getFeatureIcon } from '../../../../../utils/getFeatureIcon';
 
 // Checked before the category map: a category whose renderer only makes sense for one of its
 // types needs an escape hatch. presence-sensor is historically a "push" category rendered as a
@@ -118,7 +118,7 @@ const SensorDeviceType = ({ children, ...props }) => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`)}`} />
+        <i class={`fe fe-${getFeatureIcon({ category, type })}`} />
       </td>
       <td>{props.rowName}</td>
       <td class="text-right">{createElement(elementType, props)}</td>

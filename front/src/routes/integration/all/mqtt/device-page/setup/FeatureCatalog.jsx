@@ -3,10 +3,10 @@ import { Text, Localizer } from 'preact-i18n';
 import cx from 'classnames';
 import get from 'get-value';
 
-import { DeviceFeatureCategoriesIcon } from '../../../../../../utils/consts';
 import FeaturePreview from './FeaturePreview';
 import { filterFeatureCatalogOptions } from '../utils';
 import style from '../style.css';
+import { getFeatureIcon } from '../../../../../../utils/getFeatureIcon';
 
 class FeatureCatalog extends Component {
   constructor(props) {
@@ -99,7 +99,7 @@ class FeatureCatalog extends Component {
                   <div class={style.featureCatalogGrid}>
                     {group.options.map(option => {
                       const [category, type] = option.value.split('|');
-                      const icon = get(DeviceFeatureCategoriesIcon, `${category}.${type}`, 'radio');
+                      const icon = getFeatureIcon({ category, type }, 'radio');
 
                       return (
                         <button

@@ -1,11 +1,10 @@
 import { Text } from 'preact-i18n';
-import get from 'get-value';
 import cx from 'classnames';
 
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
 import { smartRound } from '../../../../../../server/utils/units';
 
 import style from './style.css';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 const MultiLevelDeviceType = ({ children, ...props }) => {
   function updateValue(e) {
@@ -15,13 +14,7 @@ const MultiLevelDeviceType = ({ children, ...props }) => {
   return (
     <tr>
       <td>
-        <i
-          class={`fe fe-${get(
-            DeviceFeatureCategoriesIcon,
-            `${props.deviceFeature.category}.${props.deviceFeature.type}`,
-            { default: 'arrow-right' }
-          )}`}
-        />
+        <i class={`fe fe-${getFeatureIcon(props.deviceFeature, 'arrow-right')}`} />
       </td>
       <td>{props.rowName}</td>
 

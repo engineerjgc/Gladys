@@ -1,9 +1,7 @@
-import get from 'get-value';
-
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
 import { resolveFeatureOptions } from '../../../../utils/supportedOptions';
 import { AC_MODE } from '../../../../../../server/utils/constants';
 import AdaptiveOptionControl from './AdaptiveOptionControl';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 const MODE_OPTIONS = [
   { value: AC_MODE.AUTO, i18nKey: 'auto' },
@@ -35,7 +33,7 @@ const AirConditioningModeDeviceFeature = props => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`, { default: 'sliders' })}`} />
+        <i class={`fe fe-${getFeatureIcon({ category, type }, 'sliders')}`} />
       </td>
       <td>{props.rowName}</td>
       <AdaptiveOptionControl

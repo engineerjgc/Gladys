@@ -1,8 +1,7 @@
 import { Component } from 'preact';
-import get from 'get-value';
 import { Text } from 'preact-i18n';
 
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 // Recall-a-preset row. Recalling a preset is an action, not a state: no option stays
 // selected, and the select returns to its placeholder after each command.
@@ -29,7 +28,7 @@ class CameraPresetDeviceFeature extends Component {
     return (
       <tr>
         <td>
-          <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`, { default: 'map-pin' })}`} />
+          <i class={`fe fe-${getFeatureIcon({ category, type }, 'map-pin')}`} />
         </td>
         <td>{props.rowName}</td>
         <td class="text-right py-0">

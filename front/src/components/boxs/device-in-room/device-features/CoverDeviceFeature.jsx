@@ -1,6 +1,5 @@
-import get from 'get-value';
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
 import ShutterButtons from '../../../device/ShutterButtons';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 const CoverDeviceFeature = ({ children, ...props }) => {
   const { deviceFeature } = props;
@@ -13,7 +12,7 @@ const CoverDeviceFeature = ({ children, ...props }) => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`, { default: 'sliders' })}`} />
+        <i class={`fe fe-${getFeatureIcon({ category, type }, 'sliders')}`} />
       </td>
       <td>{props.rowName}</td>
 

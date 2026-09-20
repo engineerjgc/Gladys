@@ -2,9 +2,9 @@ import { Component } from 'preact';
 import get from 'get-value';
 import { Localizer, Text } from 'preact-i18n';
 
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
 import { CAMERA_MOVE } from '../../../../../../server/utils/constants';
 import { CAMERA_MOVE_OPTIONS, getSupportedMoves } from '../../../../utils/cameraMove';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 const isActivationKey = e => e.key === 'Enter' || e.key === ' ';
 
@@ -87,7 +87,7 @@ class CameraMoveDeviceFeature extends Component {
     return (
       <tr>
         <td>
-          <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`, { default: 'move' })}`} />
+          <i class={`fe fe-${getFeatureIcon({ category, type }, 'move')}`} />
         </td>
         <td>{props.rowName}</td>
         <td class="text-right py-0">

@@ -1,10 +1,9 @@
-import get from 'get-value';
-import { DeviceFeatureCategoriesIcon } from '../../../../../../utils/consts';
+import { getFeatureIcon } from '../../../../../../utils/getFeatureIcon';
 
 const SensorRowFeaturePreview = ({ label, category, type, children }) => (
   <tr>
     <td>
-      <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`, 'radio')}`} />
+      <i class={`fe fe-${getFeatureIcon({ category, type }, 'radio')}`} />
     </td>
     <td>{label}</td>
     <td class="text-right">{children}</td>

@@ -1,10 +1,9 @@
 import { Component } from 'preact';
 import cx from 'classnames';
-import get from 'get-value';
 import { Text } from 'preact-i18n';
 import { DEVICE_FEATURE_CATEGORIES } from '../../../../../../server/utils/constants';
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
 import style from './style.css';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 // Television push buttons are remote-control keys: the row already names them ("Channel up",
 // "Play", ...), so the button only shows the key icon. The generic "Push" label is kept for the
@@ -28,7 +27,7 @@ class PushDeviceComponent extends Component {
 
   render(props, { loading }) {
     const { category, type } = props.deviceFeature;
-    const icon = get(DeviceFeatureCategoriesIcon, `${category}.${type}`, { default: 'circle' });
+    const icon = getFeatureIcon({ category, type }, 'circle');
     const iconOnly = REMOTE_CONTROL_CATEGORIES.includes(category);
 
     return (

@@ -10,14 +10,14 @@ import {
   DEVICE_FEATURE_TYPES
 } from '../../../../../../../../server/utils/constants';
 import { ENERGY_INDEX_FEATURE_TYPES } from '../../../../../../../../server/services/energy-monitoring/utils/constants';
-import { DeviceFeatureCategoriesIcon } from '../../../../../../utils/consts';
 import { getDeviceParam } from '../../../../../../utils/device';
 import { CAMERA_MOVE_OPTIONS } from '../../../../../../utils/cameraMove';
 import { buildCameraMoveSupportedOptions, featureNeedsMinMax, isFeatureFieldErrored, isSelectFeature } from '../utils';
 import style from '../style.css';
+import { getFeatureIcon } from '../../../../../../utils/getFeatureIcon';
 
 const MqttFeatureBox = ({ children, feature, featureIndex, validationErrors, ...props }) => {
-  const icon = get(DeviceFeatureCategoriesIcon, `${feature.category}.${feature.type}`, 'radio');
+  const icon = getFeatureIcon(feature, 'radio');
   const isCameraMove =
     feature.category === DEVICE_FEATURE_CATEGORIES.CAMERA && feature.type === DEVICE_FEATURE_TYPES.CAMERA.MOVE;
   const isCameraPreset =

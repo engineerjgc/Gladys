@@ -1,10 +1,9 @@
 import { Text, Localizer } from 'preact-i18n';
 import { Link } from 'preact-router/match';
 import cx from 'classnames';
-import get from 'get-value';
 
-import { DeviceFeatureCategoriesIcon } from '../../utils/consts';
 import style from './style.css';
+import { getFeatureIcon } from '../../utils/getFeatureIcon';
 
 const MAX_FEATURE_ICONS = 5;
 
@@ -36,9 +35,6 @@ const getStampColor = slug => {
 // Only features whose history is kept have states to export: exporting the
 // others would always produce an empty file.
 export const getExportableFeatures = device => (device.features || []).filter(feature => feature.keep_history);
-
-export const getFeatureIcon = feature =>
-  get(DeviceFeatureCategoriesIcon, `${feature.category}.${feature.type}`) || 'sliders';
 
 export const DeviceStamp = ({ device, integration }) => {
   const features = device.features || [];

@@ -1,8 +1,7 @@
 import { Text } from 'preact-i18n';
-import get from 'get-value';
 
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
 import style from './style.css';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 /**
  * An editable number.
@@ -31,13 +30,7 @@ const NumberDeviceFeature = ({ children, ...props }) => {
   return (
     <tr>
       <td>
-        <i
-          class={`fe fe-${get(
-            DeviceFeatureCategoriesIcon,
-            `${deviceFeature.category}.${deviceFeature.type}`,
-            { default: 'hash' }
-          )}`}
-        />
+        <i class={`fe fe-${getFeatureIcon(deviceFeature, 'hash')}`} />
       </td>
       <td>{props.rowName}</td>
 

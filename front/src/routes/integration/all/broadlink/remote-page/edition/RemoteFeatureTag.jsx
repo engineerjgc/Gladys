@@ -1,9 +1,8 @@
 import { Component } from 'preact';
 import { Text } from 'preact-i18n';
-import get from 'get-value';
 import cx from 'classnames';
 
-import { DeviceFeatureCategoriesIcon } from '../../../../../../utils/consts';
+import { getFeatureIcon } from '../../../../../../utils/getFeatureIcon';
 
 class RemoteFeatureTag extends Component {
   select = () => {
@@ -29,7 +28,7 @@ class RemoteFeatureTag extends Component {
       >
         <Text id={`deviceFeatureCategory.${category}.${type}`} />
         <div class="tag-addon">
-          <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`)}`} />
+          <i class={`fe fe-${getFeatureIcon({ category, type })}`} />
         </div>
       </span>
     );

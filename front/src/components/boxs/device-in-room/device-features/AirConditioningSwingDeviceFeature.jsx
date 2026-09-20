@@ -1,9 +1,7 @@
-import get from 'get-value';
-
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
 import { resolveFeatureOptions } from '../../../../utils/supportedOptions';
 import { AC_SWING_HORIZONTAL, AC_SWING_VERTICAL, DEVICE_FEATURE_TYPES } from '../../../../../../server/utils/constants';
 import AdaptiveOptionControl from './AdaptiveOptionControl';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 const SWING_HORIZONTAL_OPTIONS = [
   { value: AC_SWING_HORIZONTAL.OFF, i18nKey: 'off' },
@@ -42,7 +40,7 @@ const AirConditioningSwingDeviceFeature = props => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`, { default: 'refresh-cw' })}`} />
+        <i class={`fe fe-${getFeatureIcon({ category, type }, 'refresh-cw')}`} />
       </td>
       <td>{props.rowName}</td>
       <AdaptiveOptionControl

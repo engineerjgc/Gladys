@@ -1,8 +1,7 @@
-import get from 'get-value';
 import { Text } from 'preact-i18n';
 
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
 import { PILOT_WIRE_MODE } from '../../../../../../server/utils/constants';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 const PilotWireModeDeviceFeature = ({ children, ...props }) => {
   const { deviceFeature } = props;
@@ -15,7 +14,7 @@ const PilotWireModeDeviceFeature = ({ children, ...props }) => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`, { default: 'sliders' })}`} />
+        <i class={`fe fe-${getFeatureIcon({ category, type }, 'sliders')}`} />
       </td>
       <td>{props.rowName}</td>
 

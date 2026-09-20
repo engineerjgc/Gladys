@@ -4,10 +4,10 @@ import { Text } from 'preact-i18n';
 import get from 'get-value';
 
 import { WEBSOCKET_MESSAGE_TYPES } from '../../../../../server/utils/constants';
-import { DeviceFeatureCategoriesIcon } from '../../../utils/consts';
 import DeviceFeatureValueText from '../../device/DeviceFeatureValueText';
 import { getGalleryRatio, getGalleryUrl } from './gallery';
 import style from './style.css';
+import { getFeatureIcon } from '../../../utils/getFeatureIcon';
 
 export const resolveHouseViewImage = async (httpClient, imageRef) => {
   if (!imageRef) {
@@ -29,7 +29,7 @@ export const getPinIcon = (pin, feature) => {
     return pin.icon;
   }
   if (feature) {
-    const icon = get(DeviceFeatureCategoriesIcon, `${feature.category}.${feature.type}`);
+    const icon = getFeatureIcon(feature);
     if (icon) {
       return icon;
     }

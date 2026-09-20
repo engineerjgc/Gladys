@@ -1,9 +1,7 @@
-import get from 'get-value';
-
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
 import { resolveFeatureOptions } from '../../../../utils/supportedOptions';
 import { SIREN_MODE } from '../../../../../../server/utils/constants';
 import AdaptiveOptionControl from './AdaptiveOptionControl';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 const MODE_OPTIONS = [
   { value: SIREN_MODE.IDLE, i18nKey: 'idle' },
@@ -28,7 +26,7 @@ const SirenAlarmModeDeviceFeature = props => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`, { default: 'sliders' })}`} />
+        <i class={`fe fe-${getFeatureIcon({ category, type }, 'sliders')}`} />
       </td>
       <td>{props.rowName}</td>
       <AdaptiveOptionControl

@@ -1,9 +1,7 @@
-import get from 'get-value';
-
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
 import { resolveFeatureOptions } from '../../../../utils/supportedOptions';
 import { AC_FAN_SPEED } from '../../../../../../server/utils/constants';
 import AdaptiveOptionControl from './AdaptiveOptionControl';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 const FAN_SPEED_OPTIONS = [
   { value: AC_FAN_SPEED.AUTO, i18nKey: 'auto' },
@@ -30,7 +28,7 @@ const AirConditioningFanSpeedDeviceFeature = props => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`, { default: 'wind' })}`} />
+        <i class={`fe fe-${getFeatureIcon({ category, type }, 'wind')}`} />
       </td>
       <td>{props.rowName}</td>
       <AdaptiveOptionControl

@@ -1,8 +1,6 @@
-import get from 'get-value';
-
-import { DeviceFeatureCategoriesIcon } from '../../../../utils/consts';
 import { resolveFeatureOptions } from '../../../../utils/supportedOptions';
 import AdaptiveOptionControl from './AdaptiveOptionControl';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 /**
  * A select among string values the integration discovered on the appliance itself
@@ -20,7 +18,7 @@ const TextSelectDeviceFeature = props => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${category}.${type}`, { default: 'list' })}`} />
+        <i class={`fe fe-${getFeatureIcon({ category, type }, 'list')}`} />
       </td>
       <td>{props.rowName}</td>
       <AdaptiveOptionControl

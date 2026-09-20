@@ -5,7 +5,6 @@ import dayjs from 'dayjs';
 
 import { DEVICE_FEATURE_CATEGORIES, DEVICE_FEATURE_TYPES } from '../../../../server/utils/constants';
 import SvgIcon from '../../components/icons/SvgIcon';
-import { DeviceFeatureCategoriesIcon } from '../../utils/consts';
 import {
   DEFAULT_SIGNAL_MAX,
   DEFAULT_SIGNAL_MIN,
@@ -14,6 +13,7 @@ import {
 } from '../../utils/signalQuality';
 import { getGroupOfCategory } from './categoryGroups';
 import style from './style.css';
+import { getFeatureIcon } from '../../utils/getFeatureIcon';
 
 const BINARY_TYPES = [DEVICE_FEATURE_TYPES.SENSOR.BINARY, DEVICE_FEATURE_TYPES.SENSOR.PUSH];
 
@@ -97,7 +97,7 @@ const EventLine = ({ eventGroup, intl, toggleExpand, expanded, featuresBySelecto
   const event = eventGroup.events[0];
   const { category, type } = event.device_feature;
   const group = getGroupOfCategory(category);
-  const icon = get(DeviceFeatureCategoriesIcon, `${category}.${type}`) || group.icon;
+  const icon = getFeatureIcon({ category, type }) || group.icon;
   const count = eventGroup.events.length;
 
   return (
