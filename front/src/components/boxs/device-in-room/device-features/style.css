@@ -97,3 +97,10 @@ input[type='range'][class~='light-temperature']::-ms-fill-lower {
   width: 6rem;
   flex: 0 0 auto;
 }
+
+/* Wide enough to read a name or a passphrase, and sized in its own right
+   rather than as a grid column: the cell these sit in is a flex box. */
+.textInput {
+  width: 12rem;
+  flex: 0 1 auto;
+}

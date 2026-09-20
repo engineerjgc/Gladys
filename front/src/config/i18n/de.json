@@ -6555,6 +6555,8 @@
     "off": "Aus"
   },
   "deviceFeature": {
-    "secretPlaceholder": "Neuer Wert — nach dem Speichern nicht mehr sichtbar"
+    "secretPlaceholder": "Neuer Wert — nach dem Speichern nicht mehr sichtbar",
+    "revealSecret": "Eingabe anzeigen",
+    "hideSecret": "Wieder verbergen"
   }
 }

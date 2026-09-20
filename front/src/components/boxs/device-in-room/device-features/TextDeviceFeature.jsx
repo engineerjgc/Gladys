@@ -1,72 +1,91 @@
+import { Component } from 'preact';
 import { Text, Localizer } from 'preact-i18n';
+import cx from 'classnames';
 
 import { DEVICE_FEATURE_TYPES } from '../../../../../../server/utils/constants';
 import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
+import style from './style.css';
 
 /**
- * A free-text value the user can edit from a dashboard. The server already stores
- * text states (device.setValue writes last_value_string for a text feature, and an
- * integration publishes them as { text }); this is the control that was missing, so
- * until now a text feature could be displayed but never set.
+ * A free-text value the user can edit from a dashboard, and its write-only
+ * sibling for a passphrase, a token or an API key.
  *
- * Committed on change rather than on every keystroke: an input debounced per
- * character sends every prefix of what is being typed, and a text feature is
- * usually a name or an address somewhere downstream, where a stream of partial
- * values is not harmless.
+ * WHAT IS BEING TYPED IS HELD LOCALLY, and that is not a refinement — without
+ * it the control does not work at all. An input whose value comes straight
+ * from a prop is rewritten on the next render, and this row re-renders
+ * whenever its device does: every state that arrives, every poll. Each
+ * keystroke was reverted before it could be seen, so the box looked as though
+ * it were simply refusing input.
  *
- * A SECRET is the same control with the value taken away: masked, always empty,
- * and never bound to a state, because there is no state — device.setValue
- * refuses to persist one. Typing a new value replaces whatever the appliance
- * holds; the box goes back to empty because Gladys genuinely does not know what
- * is there, which is the honest thing to show.
+ * The draft is cleared once committed and the row goes back to showing the
+ * authoritative value — the one the appliance confirmed, rather than the one
+ * that was typed at it.
+ *
+ * A SECRET never shows a stored value, because there is never one to show:
+ * the server refuses to persist it. It can be revealed WHILE BEING TYPED,
+ * which is the only thing there is to reveal, and is how somebody checks they
+ * typed a passphrase correctly before committing it.
  */
-const TextDeviceFeature = ({ children, ...props }) => {
-  const { deviceFeature } = props;
-  const { category, type } = deviceFeature;
-  const isSecret = type === DEVICE_FEATURE_TYPES.TEXT.SECRET;
+class TextDeviceFeature extends Component {
+  state = { draft: null, revealed: false };
 
-  function updateValue(e) {
-    props.updateValueWithDebounce(deviceFeature, e.target.value);
-    if (isSecret) {
-      // Cleared straight away: leaving it on screen is the shoulder-surfing
-      // problem masking was for, and there is nothing to display afterwards.
-      e.target.value = '';
-    }
+  get isSecret() {
+    return this.props.deviceFeature.type === DEVICE_FEATURE_TYPES.TEXT.SECRET;
   }
 
-  return (
-    <tr>
-      <td>
-        <i class={`fe fe-${getFeatureIcon({ category, type }, 'type')}`} />
-      </td>
-      <td>{props.rowName}</td>
+  onInput = e => this.setState({ draft: e.target.value });
 
-      <td class="py-0">
-        <div class="d-flex justify-content-end">
-          {isSecret ? (
+  toggleReveal = () => this.setState(previous => ({ revealed: !previous.revealed }));
+
+  commit = e => {
+    this.props.updateValueWithDebounce(this.props.deviceFeature, e.target.value);
+    // A secret leaves nothing behind: not in the box, not in component state,
+    // and not on screen if it was being revealed.
+    this.setState({ draft: null, revealed: false });
+  };
+
+  render({ deviceFeature, rowName }, { draft, revealed }) {
+    const stored = this.isSecret ? '' : deviceFeature.last_value_string || '';
+    const displayed = draft === null ? stored : draft;
+
+    return (
+      <tr>
+        <td>
+          <i class={`fe fe-${getFeatureIcon(deviceFeature, 'type')}`} />
+        </td>
+        <td>{rowName}</td>
+
+        <td class="py-0">
+          <div class="d-flex justify-content-end align-items-center">
             <Localizer>
               <input
-                type="password"
-                autocomplete="new-password"
-                placeholder={<Text id="deviceFeature.secretPlaceholder" />}
-                class="form-control text-right"
-                onChange={updateValue}
+                type={this.isSecret && !revealed ? 'password' : 'text'}
+                autocomplete={this.isSecret ? 'new-password' : 'off'}
+                value={displayed}
+                placeholder={this.isSecret ? <Text id="deviceFeature.secretPlaceholder" /> : ''}
+                class={cx('form-control text-right', style.textInput)}
+                onInput={this.onInput}
+                onChange={this.commit}
                 readOnly={deviceFeature.read_only}
               />
             </Localizer>
-          ) : (
-            <input
-              type="text"
-              value={deviceFeature.last_value_string || ''}
-              class="form-control text-right"
-              onChange={updateValue}
-              readOnly={deviceFeature.read_only}
-            />
-          )}
-        </div>
-      </td>
-    </tr>
-  );
-};
+            {this.isSecret && !deviceFeature.read_only && (
+              <Localizer>
+                <button
+                  type="button"
+                  class="btn btn-link px-2 text-muted"
+                  onClick={this.toggleReveal}
+                  title={revealed ? <Text id="deviceFeature.hideSecret" /> : <Text id="deviceFeature.revealSecret" />}
+                >
+                  <i class={`fe fe-${revealed ? 'eye-off' : 'eye'}`} />
+                </button>
+              </Localizer>
+            )}
+          </div>
+        </td>
+      </tr>
+    );
+  }
+}
 
 export default TextDeviceFeature;
