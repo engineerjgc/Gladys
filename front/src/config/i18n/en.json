@@ -6411,7 +6411,9 @@
       "every10Seconds": "Every 10 seconds",
       "every2Seconds": "Every 2 seconds",
       "every1Seconds": "Every second"
-    }
+    },
+    "changeIconLabel": "Change the icon",
+    "useDefaultIcon": "Use the default icon"
   },
   "gatewaySignup": {
     "title": "Gladys Assistant",

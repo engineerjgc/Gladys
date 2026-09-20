@@ -8,6 +8,7 @@ import {
 } from '../../../../server/utils/constants';
 import get from 'get-value';
 import { getFeatureIcon } from '../../utils/getFeatureIcon';
+import IconSelector from '../scene/IconSelector';
 
 const DEVICE_FEATURE_COMPATIBLE_CATEGORY = {
   [DEVICE_FEATURE_TYPES.SWITCH.BINARY]: [DEVICE_FEATURE_CATEGORIES.LIGHT, DEVICE_FEATURE_CATEGORIES.SWITCH],
@@ -15,6 +16,23 @@ const DEVICE_FEATURE_COMPATIBLE_CATEGORY = {
 };
 
 class UpdateDeviceFeature extends Component {
+  state = { iconPickerOpened: false };
+
+  toggleIconPicker = () => this.setState(previous => ({ iconPickerOpened: !previous.iconPickerOpened }));
+
+  updateIcon = e => {
+    this.props.updateFeatureProperty(this.props.featureIndex, 'icon', e.target.value);
+    this.setState({ iconPickerOpened: false });
+  };
+
+  // Back to the icon implied by the category and type. Null rather than an
+  // empty string: the column means "not chosen", and "" is a choice of
+  // nothing, which would render no glyph at all.
+  resetIcon = () => {
+    this.props.updateFeatureProperty(this.props.featureIndex, 'icon', null);
+    this.setState({ iconPickerOpened: false });
+  };
+
   updateName = e => this.props.updateFeatureProperty(this.props.featureIndex, 'name', e.target.value);
   updateExternalId = e => this.props.updateFeatureProperty(this.props.featureIndex, 'external_id', e.target.value);
   updateMin = e => this.props.updateFeatureProperty(this.props.featureIndex, 'min', e.target.value);
@@ -49,10 +67,32 @@ class UpdateDeviceFeature extends Component {
       <div class="col-md-4">
         <div class="card">
           <div class="card-header">
-            <i class={`mr-2 fe fe-${getFeatureIcon(feature)}`} />
+            <Localizer>
+              <button
+                type="button"
+                class="btn btn-link p-0 mr-2 text-decoration-none"
+                onClick={this.toggleIconPicker}
+                title={<Text id="editDeviceForm.changeIconLabel" />}
+              >
+                <i class={`fe fe-${getFeatureIcon(feature)}`} />
+              </button>
+            </Localizer>
             <Text id={`deviceFeatureCategory.${feature.category}.${feature.type}`} />
           </div>
           <div class="card-body">
+            {this.state.iconPickerOpened && (
+              <div class="form-group">
+                <label class="form-label">
+                  <Text id="editDeviceForm.changeIconLabel" />
+                </label>
+                <IconSelector value={feature.icon} onChange={this.updateIcon} />
+                {feature.icon && (
+                  <button type="button" class="btn btn-sm btn-outline-secondary mt-2" onClick={this.resetIcon}>
+                    <Text id="editDeviceForm.useDefaultIcon" />
+                  </button>
+                )}
+              </div>
+            )}
             <div class="form-group form-label" for={`featureName_${featureIndex}`}>
               <label>
                 <Text id="editDeviceForm.nameLabel" />
