@@ -125,7 +125,15 @@ input[type='range'][class~='light-temperature']::-ms-fill-lower {
   line-height: 1;
 }
 
-/* Suppress the browser's own reveal, so there is one control rather than two.
+/* Hides the characters without `type="password"`, so no engine attaches its
+   own reveal button. Used only where the property is supported; the fallback
+   is a real password field, because losing the masking would be a fault and a
+   duplicate button is only untidy. */
+.masked {
+  -webkit-text-security: disc;
+}
+
+/* Suppress the browser's own reveal, for the fallback path above.
    Every engine has grown its own and they are all spelled differently:
    Chromium and Safari use the -webkit- credential buttons, Edge uses
    -ms-reveal, and Gecko (Firefox, Waterfox) uses -moz-reveal. Missing one

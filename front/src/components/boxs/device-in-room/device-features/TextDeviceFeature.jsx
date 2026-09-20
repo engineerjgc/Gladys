@@ -27,6 +27,23 @@ import style from './style.css';
  * asks. An appliance that will not hand a value back publishes no state and
  * the field is empty, which is the honest thing to show in that case.
  */
+/*
+ * Whether the characters can be hidden WITHOUT `type="password"`.
+ *
+ * Every engine now draws its own reveal button inside a password field, each
+ * spelled differently and at least one of them (Gecko's) not addressable as a
+ * pseudo-element at all — so a control of our own sits beside theirs and the
+ * row shows two eyes. Masking a plain text field with CSS gives the native
+ * button nothing to attach to.
+ *
+ * Tested rather than assumed, because the failure mode of assuming wrongly is
+ * a passphrase rendered in clear. Where the property is missing we fall back
+ * to a real password field: the duplicate button is ugly, and showing the
+ * secret would be a fault.
+ */
+const CSS_CAN_MASK =
+  typeof CSS !== 'undefined' && typeof CSS.supports === 'function' && CSS.supports('-webkit-text-security', 'disc');
+
 class TextDeviceFeature extends Component {
   state = { draft: null, revealed: false };
 
@@ -60,11 +77,16 @@ class TextDeviceFeature extends Component {
           <div class={cx('d-flex justify-content-end align-items-center', style.secretWrapper)}>
             <Localizer>
               <input
-                type={this.isSecret && !revealed ? 'password' : 'text'}
+                type={this.isSecret && !revealed && !CSS_CAN_MASK ? 'password' : 'text'}
                 autocomplete={this.isSecret ? 'new-password' : 'off'}
                 value={displayed}
                 placeholder={this.isSecret ? <Text id="deviceFeature.secretPlaceholder" /> : ''}
-                class={cx('form-control text-right', style.textInput, this.isSecret && style.secretInput)}
+                class={cx(
+                  'form-control text-right',
+                  style.textInput,
+                  this.isSecret && style.secretInput,
+                  this.isSecret && !revealed && CSS_CAN_MASK && style.masked,
+                )}
                 onInput={this.onInput}
                 onChange={this.commit}
                 readOnly={deviceFeature.read_only}
