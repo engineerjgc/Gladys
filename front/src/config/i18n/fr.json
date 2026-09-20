@@ -6165,6 +6165,7 @@
     "text": {
       "shortCategoryName": "Texte",
       "text": "Texte",
+      "secret": "Secret",
       "select": "Sélection"
     },
     "surface": {
