@@ -104,3 +104,39 @@ input[type='range'][class~='light-temperature']::-ms-fill-lower {
   width: 12rem;
   flex: 0 1 auto;
 }
+
+/* A secret's reveal control sits INSIDE the box, where the browser puts its
+   own — so the padding keeps the dots from running into it. */
+.secretWrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.secretInput {
+  padding-right: 2.25rem;
+}
+
+.revealButton {
+  position: absolute;
+  right: 0.125rem;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 1;
+}
+
+/* Suppress the browser's own reveal, so there is one control rather than two.
+   Chromium and Edge each provide their own and Firefox provides none, so
+   leaving them in place means a different control on every browser and two
+   of them on some. */
+.secretInput::-ms-reveal,
+.secretInput::-ms-clear {
+  display: none;
+}
+
+.secretInput::-webkit-credentials-auto-fill-button,
+.secretInput::-webkit-strong-password-auto-fill-button {
+  display: none !important;
+  visibility: hidden;
+  pointer-events: none;
+}

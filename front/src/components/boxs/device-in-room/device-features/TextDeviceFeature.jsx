@@ -56,14 +56,14 @@ class TextDeviceFeature extends Component {
         <td>{rowName}</td>
 
         <td class="py-0">
-          <div class="d-flex justify-content-end align-items-center">
+          <div class={cx('d-flex justify-content-end align-items-center', style.secretWrapper)}>
             <Localizer>
               <input
                 type={this.isSecret && !revealed ? 'password' : 'text'}
                 autocomplete={this.isSecret ? 'new-password' : 'off'}
                 value={displayed}
                 placeholder={this.isSecret ? <Text id="deviceFeature.secretPlaceholder" /> : ''}
-                class={cx('form-control text-right', style.textInput)}
+                class={cx('form-control text-right', style.textInput, this.isSecret && style.secretInput)}
                 onInput={this.onInput}
                 onChange={this.commit}
                 readOnly={deviceFeature.read_only}
@@ -73,7 +73,7 @@ class TextDeviceFeature extends Component {
               <Localizer>
                 <button
                   type="button"
-                  class="btn btn-link px-2 text-muted"
+                  class={cx('btn btn-link p-0 text-muted', style.revealButton)}
                   onClick={this.toggleReveal}
                   title={revealed ? <Text id="deviceFeature.hideSecret" /> : <Text id="deviceFeature.revealSecret" />}
                 >
