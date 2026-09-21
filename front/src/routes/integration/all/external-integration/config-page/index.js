@@ -540,6 +540,30 @@ class ExternalIntegrationConfigPage extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.selector !== this.props.selector) {
       this.loadData();
+      return;
+    }
+    /*
+     * THE USER ARRIVES ASYNCHRONOUSLY, and this page decides what to load
+     * from their role.
+     *
+     * `loadData` asks for the integration's configuration only for an admin,
+     * because that route is admin-only and must not even be called otherwise.
+     * It used to decide once, at mount — before `/me` had come back — so a
+     * DIRECT load of this URL (a reload, a bookmark, a link from outside the
+     * app) skipped the configuration request entirely. No error: the form
+     * simply rendered the manifest's defaults, every other field blank, which
+     * is indistinguishable from an integration nobody has configured yet.
+     *
+     * Pressing Save there writes those blanks over a working configuration.
+     * Observed on 2026-09-21 against a configured integration, where the one
+     * field whose manifest carries no default was the one that made it
+     * visible — the rest looked plausible because their defaults filled them.
+     *
+     * Reaching the page from inside the app hid it, because the user was
+     * already in the store by then.
+     */
+    if (get(prevProps, 'user.role') !== get(this.props, 'user.role') && this.isAdmin()) {
+      this.loadData();
     }
   }
 
