@@ -6412,6 +6412,7 @@
       "every2Seconds": "Every 2 seconds",
       "every1Seconds": "Every second"
     },
+    "iconsLabel": "Icons",
     "changeIconLabel": "Change the icon",
     "useDefaultIcon": "Use the default icon"
   },

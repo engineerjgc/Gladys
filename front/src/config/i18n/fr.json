@@ -6412,6 +6412,7 @@
       "every2Seconds": "Toutes les 2 secondes",
       "every1Seconds": "Chaque seconde"
     },
+    "iconsLabel": "Icônes",
     "changeIconLabel": "Changer l'icône",
     "useDefaultIcon": "Utiliser l'icône par défaut"
   },

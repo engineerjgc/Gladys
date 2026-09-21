@@ -4,6 +4,7 @@ import cx from 'classnames';
 
 import DeviceFeatures from '../../../../../components/device/view/DeviceFeatures';
 import KeepHistoryFeature, { isHistorizableFeature } from './KeepHistoryFeature';
+import FeatureIcon from './FeatureIcon';
 import DeviceParams from '../components/DeviceParams';
 import TransportBadge from '../components/TransportBadge';
 import { getDeviceTransport, getDeviceTransportMessage, isDeviceTransportDegraded } from '../utils';
@@ -20,6 +21,10 @@ class DeviceBox extends Component {
 
   updateFeatureKeepHistory = (featureIndex, value) => {
     this.props.updateFeatureProperty(this.props.deviceIndex, featureIndex, 'keep_history', value);
+  };
+
+  updateFeatureIcon = (featureIndex, icon) => {
+    this.props.updateFeatureProperty(this.props.deviceIndex, featureIndex, 'icon', icon);
   };
 
   saveDevice = async () => {
@@ -127,6 +132,22 @@ class DeviceBox extends Component {
                   </label>
                   <DeviceFeatures features={device.features} />
                 </div>
+
+                {(device.features || []).length > 0 && (
+                  <div class="form-group">
+                    <label class="form-label">
+                      <Text id="editDeviceForm.iconsLabel" />
+                    </label>
+                    {(device.features || []).map((feature, featureIndex) => (
+                      <FeatureIcon
+                        key={feature.id || feature.external_id}
+                        feature={feature}
+                        featureIndex={featureIndex}
+                        updateFeatureIcon={this.updateFeatureIcon}
+                      />
+                    ))}
+                  </div>
+                )}
 
                 {historizableFeatures.length > 0 && (
                   <div class="form-group">
