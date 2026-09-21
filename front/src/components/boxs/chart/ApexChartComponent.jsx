@@ -119,7 +119,9 @@ class ApexChartComponent extends Component {
       defaultLocale: this.props.user.language,
       yAxisFormatter: this.props.y_axis_formatter,
       yAxisUnit: this.props.y_axis_unit,
-      disableZoom: this.props.disable_zoom
+      disableZoom: this.props.disable_zoom,
+      yAxisMin: this.props.y_axis_min,
+      yAxisMax: this.props.y_axis_max
     });
     this.addDateFormatter(options);
     // Apply custom tooltip formatters if provided
@@ -151,7 +153,9 @@ class ApexChartComponent extends Component {
       displayAxes: this.props.display_axes,
       colors: mergeArray(this.props.colors, DEFAULT_COLORS),
       locales: [fr, en, de],
-      defaultLocale: this.props.user.language
+      defaultLocale: this.props.user.language,
+      yAxisMin: this.props.y_axis_min,
+      yAxisMax: this.props.y_axis_max
     });
     this.addDateFormatter(options);
 
@@ -172,7 +176,9 @@ class ApexChartComponent extends Component {
       displayAxes: this.props.display_axes,
       series: this.props.series,
       locales: [fr, en, de],
-      defaultLocale: this.props.user.language
+      defaultLocale: this.props.user.language,
+      yAxisMin: this.props.y_axis_min,
+      yAxisMax: this.props.y_axis_max
     });
     this.addDateFormatter(options);
     return options;
@@ -192,7 +198,9 @@ class ApexChartComponent extends Component {
       displayAxes: this.props.display_axes,
       series: this.props.series,
       locales: [fr, en, de],
-      defaultLocale: this.props.user.language
+      defaultLocale: this.props.user.language,
+      yAxisMin: this.props.y_axis_min,
+      yAxisMax: this.props.y_axis_max
     });
     this.addDateFormatter(options);
     return options;

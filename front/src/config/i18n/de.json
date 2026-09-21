@@ -562,6 +562,8 @@
         "bar": "Balken",
         "timeline": "Binär",
         "stepline": "Schrittleitung",
+        "fixedScale": "Feste Skala",
+        "fixedScaleDescription": "Bindet die Y-Achse an den eigenen Bereich des Messwerts, statt sie den Werten folgen zu lassen. Nützlich für einen Füllstand oder einen Prozentwert, bei denen ein ruhiges Signal das Diagramm sonst mit seinem eigenen Rauschen füllt.",
         "displayAxes": "Achsen anzeigen?",
         "displayVariation": "Variation anzeigen?",
         "yes": "Ja",

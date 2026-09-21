@@ -562,6 +562,8 @@
         "bar": "Histogramme",
         "timeline": "Binaire",
         "stepline": "Ligne droite",
+        "fixedScale": "Échelle fixe",
+        "fixedScaleDescription": "Fixe l'axe Y sur la plage propre à la mesure, au lieu de la laisser suivre les valeurs. Utile pour un niveau ou un pourcentage, dont un signal calme remplirait sinon le graphique de son propre bruit.",
         "displayAxes": "Afficher les axes ?",
         "displayVariation": "Afficher la variation ?",
         "yes": "Oui",

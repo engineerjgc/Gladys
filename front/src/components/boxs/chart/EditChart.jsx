@@ -131,6 +131,27 @@ class EditChart extends Component {
     }
   };
 
+  /*
+   * Pin the axis to what the FEATURE says it can read, rather than to what it
+   * happens to have read lately.
+   *
+   * An auto-scaled axis redraws a quiet signal as a mountain range: a tank
+   * sitting at 88% of full for twelve hours fills the chart with its own
+   * measurement noise and looks like a crisis. The reading's working range is
+   * already authored — it is what `min` and `max` on the feature mean — so a
+   * chart can simply use it and show 88% as 88% of the way up.
+   *
+   * Off by default: an existing chart keeps the scale it has always had.
+   */
+  updateFixedScale = e => {
+    if (e.target.value && e.target.value.length) {
+      const valueBoolean = e.target.value === 'yes';
+      this.props.updateBoxConfig(this.props.x, this.props.y, { fixed_scale: valueBoolean });
+    } else {
+      this.props.updateBoxConfig(this.props.x, this.props.y, { fixed_scale: undefined });
+    }
+  };
+
   updateAggregateFunction = e => {
     this.props.updateBoxConfig(this.props.x, this.props.y, { aggregate_function: e.target.value });
   };
@@ -614,6 +635,30 @@ class EditChart extends Component {
                     </option>
                   </select>
                 </div>
+                {props.box.chart_type !== 'timeline' && (
+                  <div class="form-group">
+                    <label>
+                      <Text id="dashboard.boxes.chart.fixedScale" />
+                    </label>
+                    <select
+                      onChange={this.updateFixedScale}
+                      class="form-control"
+                      value={props.box.fixed_scale ? 'yes' : 'no'}
+                    >
+                      <option value="yes">
+                        <Text id="dashboard.boxes.chart.yes" />
+                      </option>
+                      <option value="no">
+                        <Text id="dashboard.boxes.chart.no" />
+                      </option>
+                    </select>
+                    <p class="mb-0">
+                      <small>
+                        <Text id="dashboard.boxes.chart.fixedScaleDescription" />
+                      </small>
+                    </p>
+                  </div>
+                )}
                 {props.box.chart_type !== 'timeline' && (
                   <div class="form-group">
                     <label>

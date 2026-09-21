@@ -381,7 +381,11 @@ class Chartbox extends Component {
         loading: false,
         initialized: true,
         emptySeries,
-        nbFeaturesDisplayed
+        nbFeaturesDisplayed,
+        // Cleared on every load, so turning the toggle off returns the chart
+        // to an automatic axis without a reload.
+        yAxisMin: undefined,
+        yAxisMax: undefined
       };
 
       if (data.length > 0 && this.props.box.chart_type !== 'timeline') {
@@ -421,6 +425,43 @@ class Chartbox extends Component {
           displayUnit = firstElementUnit;
           return { firstValue, lastValue };
         });
+
+        /*
+         * A FIXED AXIS, from what the instrument can read rather than from
+         * what it happened to read.
+         *
+         * An auto-scaled axis redraws a quiet signal as a mountain range: a
+         * tank sitting near full for twelve hours fills the chart with its
+         * own measurement noise and reads as a crisis. The working range is
+         * already authored — it is what `min` and `max` on a feature mean —
+         * so the chart can use it and put 88% at 88% of the way up.
+         *
+         * The widest of the features on the chart wins, so no series is
+         * clipped, and the bounds go through the same unit conversion as the
+         * values or a converted chart would be scaled in the stored unit.
+         * A feature with no usable range simply contributes none, and if
+         * none of them has one the axis stays automatic.
+         */
+        if (this.props.box.fixed_scale) {
+          let low = null;
+          let high = null;
+          data.forEach(oneFeature => {
+            const feature = oneFeature.deviceFeature || {};
+            const min = Number(feature.min);
+            const max = Number(feature.max);
+            if (!Number.isFinite(min) || !Number.isFinite(max) || max <= min) {
+              return;
+            }
+            const { value: convertedMin } = checkAndConvertUnit(min, unit, userUnitPreference);
+            const { value: convertedMax } = checkAndConvertUnit(max, unit, userUnitPreference);
+            low = low === null ? convertedMin : Math.min(low, convertedMin);
+            high = high === null ? convertedMax : Math.max(high, convertedMax);
+          });
+          if (low !== null && high !== null && high > low) {
+            newState.yAxisMin = low;
+            newState.yAxisMax = high;
+          }
+        }
 
         newState.featuresSummary = featuresSummary;
         newState.variationDownIsPositive = UNITS_WHEN_DOWN_IS_POSITIVE.includes(displayUnit);
@@ -529,6 +570,8 @@ class Chartbox extends Component {
       emptySeries,
       unit,
       nbFeaturesDisplayed,
+      yAxisMin,
+      yAxisMax,
       error,
       errorDetail
     }
@@ -776,6 +819,8 @@ class Chartbox extends Component {
                     size="big"
                     chart_type={props.box.chart_type}
                     display_axes={props.box.display_axes}
+                    y_axis_min={yAxisMin}
+                    y_axis_max={yAxisMax}
                     colors={props.box.colors}
                     additionalHeight={additionalHeight}
                     dictionary={props.intl.dictionary}
@@ -839,6 +884,8 @@ class Chartbox extends Component {
                     size="big"
                     chart_type={props.box.chart_type}
                     display_axes={props.box.display_axes}
+                    y_axis_min={yAxisMin}
+                    y_axis_max={yAxisMax}
                     colors={props.box.colors}
                     additionalHeight={additionalHeight}
                     dictionary={props.intl.dictionary}

@@ -1,6 +1,15 @@
 import { yAxisFormatter } from './yAxisFormatter';
 
-const getApexChartStepLineOptions = ({ height, displayAxes, series, colors, locales, defaultLocale }) => {
+const getApexChartStepLineOptions = ({
+  height,
+  displayAxes,
+  series,
+  colors,
+  locales,
+  defaultLocale,
+  yAxisMin,
+  yAxisMax
+}) => {
   const options = {
     chart: {
       locales,
@@ -50,6 +59,13 @@ const getApexChartStepLineOptions = ({ height, displayAxes, series, colors, loca
       type: 'datetime'
     },
     yaxis: {
+      /*
+       * Pinned when the box asks for a fixed scale, automatic otherwise.
+       * ApexCharts reads `undefined` as "work it out", so an absent bound
+       * leaves the behaviour every existing chart has always had.
+       */
+      min: Number.isFinite(yAxisMin) ? yAxisMin : undefined,
+      max: Number.isFinite(yAxisMax) ? yAxisMax : undefined,
       labels: {
         padding: 4,
         formatter: yAxisFormatter

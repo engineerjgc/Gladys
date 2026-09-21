@@ -34,6 +34,9 @@ const boxSchema = Joi.object().keys({
   group_by: Joi.string().valid('hour', 'day', 'week', 'month', 'year'),
   display_axes: Joi.boolean(),
   display_variation: Joi.boolean(),
+  // chart box: pin the Y axis to the reading's own min/max instead of letting
+  // it follow the values. Absent means the automatic axis every chart had.
+  fixed_scale: Joi.boolean(),
   chart_type: Joi.string(),
   users: Joi.array().items(Joi.string()),
   clock_type: Joi.string(),

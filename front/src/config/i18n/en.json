@@ -562,6 +562,8 @@
         "bar": "Bar",
         "timeline": "Binary",
         "stepline": "Step Line",
+        "fixedScale": "Fixed scale",
+        "fixedScaleDescription": "Pin the Y axis to the reading's own range, instead of letting it follow whatever the values happen to be. Useful for a level or a percentage, where a quiet signal otherwise fills the chart with its own noise.",
         "displayAxes": "Display axes?",
         "displayVariation": "Display variation?",
         "yes": "Yes",
