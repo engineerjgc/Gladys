@@ -87,7 +87,7 @@ class CameraMoveDeviceFeature extends Component {
     return (
       <tr>
         <td>
-          <i class={`fe fe-${getFeatureIcon({ category, type }, 'move')}`} />
+          <i class={`fe fe-${getFeatureIcon(props.deviceFeature, 'move')}`} />
         </td>
         <td>{props.rowName}</td>
         <td class="text-right py-0">

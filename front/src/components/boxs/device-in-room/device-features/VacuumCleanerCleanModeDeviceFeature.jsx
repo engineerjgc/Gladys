@@ -14,7 +14,7 @@ const VacuumCleanerCleanModeDeviceFeature = ({ children, ...props }) => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${getFeatureIcon({ category, type }, 'settings')}`} />
+        <i class={`fe fe-${getFeatureIcon(deviceFeature, 'settings')}`} />
       </td>
       <td>{props.rowName}</td>
 

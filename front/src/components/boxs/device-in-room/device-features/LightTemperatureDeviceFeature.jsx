@@ -1,3 +1,5 @@
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
+
 const LightTemperatureDeviceType = ({ children, ...props }) => {
   function updateValue(e) {
     props.updateValueWithDebounce(props.deviceFeature, e.target.value);
@@ -6,7 +8,7 @@ const LightTemperatureDeviceType = ({ children, ...props }) => {
   return (
     <tr>
       <td>
-        <i class="fe fe-thermometer" />
+        <i class={`fe fe-${getFeatureIcon(props.deviceFeature, 'thermometer')}`} />
       </td>
       <td>{props.rowName}</td>
 

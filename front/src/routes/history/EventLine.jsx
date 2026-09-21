@@ -95,9 +95,9 @@ const EventValue = ({ event, intl, featuresBySelector }) => {
 
 const EventLine = ({ eventGroup, intl, toggleExpand, expanded, featuresBySelector }) => {
   const event = eventGroup.events[0];
-  const { category, type } = event.device_feature;
+  const { category } = event.device_feature;
   const group = getGroupOfCategory(category);
-  const icon = getFeatureIcon({ category, type }) || group.icon;
+  const icon = getFeatureIcon(event.device_feature) || group.icon;
   const count = eventGroup.events.length;
 
   return (

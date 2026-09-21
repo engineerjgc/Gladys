@@ -29,7 +29,7 @@ const SELF_LABELLING_CATEGORIES = [DEVICE_FEATURE_CATEGORIES.BUTTON];
  * integration that knows whether pressing would do anything — "apply the
  * changes I am holding" — says so by publishing 1 or 0.
  */
-const isDisabled = (deviceFeature) => deviceFeature.last_value === 0;
+const isDisabled = deviceFeature => deviceFeature.last_value === 0;
 
 class PushDeviceComponent extends Component {
   constructor(props) {
@@ -48,7 +48,7 @@ class PushDeviceComponent extends Component {
 
   render(props, { loading }) {
     const { category, type } = props.deviceFeature;
-    const icon = getFeatureIcon({ category, type }, 'circle');
+    const icon = getFeatureIcon(props.deviceFeature, 'circle');
     const iconOnly = REMOTE_CONTROL_CATEGORIES.includes(category);
     const selfLabelling = SELF_LABELLING_CATEGORIES.includes(category);
     const disabled = isDisabled(props.deviceFeature);

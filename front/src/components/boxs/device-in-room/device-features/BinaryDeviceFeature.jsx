@@ -1,4 +1,5 @@
 import AdaptiveOptionControl from './AdaptiveOptionControl';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 const BinaryDeviceType = ({ children, ...props }) => {
   const { category, type, last_value: lastValue } = props.deviceFeature;
@@ -45,7 +46,7 @@ const BinaryDeviceType = ({ children, ...props }) => {
       onClick={!customText ? updateValueFromRowTap : undefined}
     >
       <td>
-        <i class="fe fe-toggle-right" />
+        <i class={`fe fe-${getFeatureIcon(props.deviceFeature, 'toggle-right')}`} />
       </td>
       <td>{props.rowName}</td>
       {!customText ? (

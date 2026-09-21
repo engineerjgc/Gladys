@@ -2,6 +2,7 @@ import { Component } from 'preact';
 import cx from 'classnames';
 import { Text } from 'preact-i18n';
 import style from './style.css';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 class VacuumCleanerDockDeviceFeature extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class VacuumCleanerDockDeviceFeature extends Component {
     return (
       <tr>
         <td>
-          <i class="fe fe-home" />
+          <i class={`fe fe-${getFeatureIcon(props.deviceFeature, 'home')}`} />
         </td>
         <td>{props.rowName}</td>
         <td class="text-right">

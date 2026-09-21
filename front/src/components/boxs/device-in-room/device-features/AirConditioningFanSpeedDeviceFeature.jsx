@@ -28,7 +28,7 @@ const AirConditioningFanSpeedDeviceFeature = props => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${getFeatureIcon({ category, type }, 'wind')}`} />
+        <i class={`fe fe-${getFeatureIcon(deviceFeature, 'wind')}`} />
       </td>
       <td>{props.rowName}</td>
       <AdaptiveOptionControl

@@ -5,6 +5,7 @@ import iro from '@jaames/iro';
 import { intToHex, hexToInt } from '../../../../../../server/utils/colors';
 
 import style from './style.css';
+import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 
 class ColorDeviceType extends Component {
   colorPickerRef = createRef();
@@ -75,7 +76,7 @@ class ColorDeviceType extends Component {
       <Fragment>
         <tr>
           <td>
-            <i class="fe fe-circle" />
+            <i class={`fe fe-${getFeatureIcon(deviceFeature, 'circle')}`} />
           </td>
           <td>{rowName}</td>
           <td class="text-right">

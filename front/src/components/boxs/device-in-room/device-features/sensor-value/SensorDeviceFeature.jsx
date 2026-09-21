@@ -118,7 +118,7 @@ const SensorDeviceType = ({ children, ...props }) => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${getFeatureIcon({ category, type })}`} />
+        <i class={`fe fe-${getFeatureIcon(feature)}`} />
       </td>
       <td>{props.rowName}</td>
       <td class="text-right">{createElement(elementType, props)}</td>

@@ -18,7 +18,7 @@ const TextSelectDeviceFeature = props => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${getFeatureIcon({ category, type }, 'list')}`} />
+        <i class={`fe fe-${getFeatureIcon(deviceFeature, 'list')}`} />
       </td>
       <td>{props.rowName}</td>
       <AdaptiveOptionControl

@@ -26,7 +26,7 @@ const SirenAlarmModeDeviceFeature = props => {
   return (
     <tr>
       <td>
-        <i class={`fe fe-${getFeatureIcon({ category, type }, 'sliders')}`} />
+        <i class={`fe fe-${getFeatureIcon(deviceFeature, 'sliders')}`} />
       </td>
       <td>{props.rowName}</td>
       <AdaptiveOptionControl
