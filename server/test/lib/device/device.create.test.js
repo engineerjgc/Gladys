@@ -236,6 +236,9 @@ describe('Device', () => {
         device_id: '7f85c2f8-86cc-4600-84db-6c074dadb4e8',
         energy_parent_id: null,
         external_id: 'hue:binary:1',
+        // Null: no icon was chosen, so the feature draws the one its
+        // category and type imply.
+        icon: null,
         category: 'temperature',
         type: 'decimal',
         read_only: false,
@@ -348,6 +351,9 @@ describe('Device', () => {
         device_id: '7f85c2f8-86cc-4600-84db-6c074dadb4e8',
         energy_parent_id: null,
         external_id: 'hue:binary:1',
+        // Null: no icon was chosen, so the feature draws the one its
+        // category and type imply.
+        icon: null,
         category: 'temperature',
         type: 'decimal',
         read_only: false,
