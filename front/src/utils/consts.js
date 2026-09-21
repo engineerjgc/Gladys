@@ -617,7 +617,11 @@ export const DeviceFeatureCategoriesIcon = {
   }
 };
 
-export const DeviceFeatureTypesString = [DEVICE_FEATURE_TYPES.TEXT.TEXT, DEVICE_FEATURE_TYPES.TEXT.SELECT];
+export const DeviceFeatureTypesString = [
+  DEVICE_FEATURE_TYPES.TEXT.TEXT,
+  DEVICE_FEATURE_TYPES.TEXT.SECRET,
+  DEVICE_FEATURE_TYPES.TEXT.SELECT
+];
 
 // Television and music features come in two flavours: continuous controls, which carry a value the
 // user reads and adjusts, and remote-control orders, which are one-shot commands with no meaningful

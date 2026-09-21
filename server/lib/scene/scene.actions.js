@@ -110,12 +110,20 @@ const actionsFunc = {
     let { value } = action;
 
     // A text feature (a message displayed on a TV, a text virtual sensor, a select among
-    // string values discovered on the appliance...) receives the value as a raw string with
-    // scene variables injected, and skips the math evaluation below which would reject any
-    // non-numeric text
+    // string values discovered on the appliance, a passphrase...) receives the value as a raw
+    // string with scene variables injected, and skips the math evaluation below which would
+    // reject any non-numeric text.
+    //
+    // EVERY WRITE COMES THROUGH HERE, not only a scene's: the REST controller behind a
+    // dashboard field emits ACTION.TRIGGERED rather than calling device.setValue, so a type
+    // missing from this list cannot be written from anywhere at all. SECRET was, and a
+    // passphrase typed on a dashboard died here as ACTION_VALUE_NOT_A_NUMBER — reported to
+    // nobody, because the response to the field had already been sent.
     if (
       deviceFeature.category === DEVICE_FEATURE_CATEGORIES.TEXT &&
-      (deviceFeature.type === DEVICE_FEATURE_TYPES.TEXT.TEXT || deviceFeature.type === DEVICE_FEATURE_TYPES.TEXT.SELECT)
+      (deviceFeature.type === DEVICE_FEATURE_TYPES.TEXT.TEXT ||
+        deviceFeature.type === DEVICE_FEATURE_TYPES.TEXT.SECRET ||
+        deviceFeature.type === DEVICE_FEATURE_TYPES.TEXT.SELECT)
     ) {
       if (action.evaluate_value !== undefined) {
         value = Handlebars.compile(action.evaluate_value, {

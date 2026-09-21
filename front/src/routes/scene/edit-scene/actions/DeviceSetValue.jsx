@@ -118,7 +118,8 @@ class DeviceSetValue extends Component {
   isTextFeature = () =>
     this.state.deviceFeature &&
     this.state.deviceFeature.category === DEVICE_FEATURE_CATEGORIES.TEXT &&
-    this.state.deviceFeature.type === DEVICE_FEATURE_TYPES.TEXT.TEXT;
+    (this.state.deviceFeature.type === DEVICE_FEATURE_TYPES.TEXT.TEXT ||
+      this.state.deviceFeature.type === DEVICE_FEATURE_TYPES.TEXT.SECRET);
 
   getDeviceFeatureControl = () => {
     if (!this.state.deviceFeature) {

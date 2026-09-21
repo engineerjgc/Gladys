@@ -44,7 +44,7 @@ async function newStateEvent(event) {
       await this.saveStringState(device, deviceFeature, event.text);
     } else if (
       deviceFeature.category === DEVICE_FEATURE_CATEGORIES.TEXT &&
-      deviceFeature.type === DEVICE_FEATURE_TYPES.TEXT.TEXT
+      (deviceFeature.type === DEVICE_FEATURE_TYPES.TEXT.TEXT || deviceFeature.type === DEVICE_FEATURE_TYPES.TEXT.SECRET)
     ) {
       // If the feature is a text, we save as string
       await this.saveStringState(device, deviceFeature, event.state);

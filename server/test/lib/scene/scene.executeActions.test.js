@@ -485,6 +485,51 @@ describe('scene.executeActions', () => {
       'The meal is ready!',
     );
   });
+  it('should execute action device.setValue with text on a SECRET feature', async () => {
+    // A secret is a string like any other text. It used to fall through to the
+    // numeric branch and abort with ACTION_VALUE_NOT_A_NUMBER, and because a
+    // dashboard field writes through this action rather than calling
+    // device.setValue directly, a passphrase typed on a dashboard could not be
+    // written from anywhere at all - with nothing said to the person typing it.
+    stateManager.setState('deviceFeature', 'my-secret-feature', {
+      device_id: 'device-id',
+      category: DEVICE_FEATURE_CATEGORIES.TEXT,
+      type: DEVICE_FEATURE_TYPES.TEXT.SECRET,
+    });
+    stateManager.setState('deviceById', 'device-id', {
+      id: 'device-id',
+      features: [],
+    });
+    const device = {
+      setValue: fake.resolves(null),
+    };
+    await executeActions(
+      { stateManager, event, device },
+      [
+        [
+          {
+            type: ACTIONS.DEVICE.SET_VALUE,
+            device_feature: 'my-secret-feature',
+            value: 'correct-horse-battery',
+          },
+        ],
+      ],
+      {},
+    );
+    assert.calledWith(
+      device.setValue,
+      {
+        id: 'device-id',
+        features: [],
+      },
+      {
+        device_id: 'device-id',
+        category: DEVICE_FEATURE_CATEGORIES.TEXT,
+        type: DEVICE_FEATURE_TYPES.TEXT.SECRET,
+      },
+      'correct-horse-battery',
+    );
+  });
   it('should execute action device.setValue with a string option value on a select feature', async () => {
     stateManager.setState('deviceFeature', 'my-select-feature', {
       device_id: 'device-id',
