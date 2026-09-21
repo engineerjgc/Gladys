@@ -6555,7 +6555,7 @@
     "off": "Off"
   },
   "deviceFeature": {
-    "secretPlaceholder": "New value — not shown once saved",
+    "secretPlaceholder": "Enter value",
     "revealSecret": "Show what is being typed",
     "hideSecret": "Hide it again"
   }

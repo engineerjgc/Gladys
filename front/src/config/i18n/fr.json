@@ -6555,7 +6555,7 @@
     "off": "Éteint"
   },
   "deviceFeature": {
-    "secretPlaceholder": "Nouvelle valeur — non affichée une fois enregistrée",
+    "secretPlaceholder": "Saisir une valeur",
     "revealSecret": "Afficher ce qui est saisi",
     "hideSecret": "Masquer à nouveau"
   }
