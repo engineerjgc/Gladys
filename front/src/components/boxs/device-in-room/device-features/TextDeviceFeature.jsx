@@ -7,8 +7,8 @@ import { getFeatureIcon } from '../../../../utils/getFeatureIcon';
 import style from './style.css';
 
 /**
- * A free-text value the user can edit from a dashboard, and its write-only
- * sibling for a passphrase, a token or an API key.
+ * A free-text value the user can edit from a dashboard, and its sibling for a
+ * passphrase, a token or an API key.
  *
  * WHAT IS BEING TYPED IS HELD LOCALLY, and that is not a refinement — without
  * it the control does not work at all. An input whose value comes straight
@@ -17,15 +17,20 @@ import style from './style.css';
  * keystroke was reverted before it could be seen, so the box looked as though
  * it were simply refusing input.
  *
- * The draft is cleared once committed and the row goes back to showing the
- * authoritative value — the one the appliance confirmed, rather than the one
- * that was typed at it.
+ * The draft is held until the APPLIANCE ANSWERS, not until the field loses
+ * focus. Clearing it on blur shows the old value for as long as the round trip
+ * takes — a second or two against a cloud controller — so the field appears to
+ * discard the edit and then take it back. Whatever arrives from the appliance
+ * wins, which is what makes a Revert elsewhere on the form reach this box.
  *
  * A SECRET is the same control with the characters masked. It is sensitive
  * rather than unreadable: the value is there, a dashboard simply does not
  * print it for anyone walking past, and the eye reveals it when its owner
- * asks. An appliance that will not hand a value back publishes no state and
- * the field is empty, which is the honest thing to show in that case.
+ * asks. Revealing lasts until it is switched off — typing does not re-hide the
+ * value, because somebody checking a passphrase as they correct it is exactly
+ * who the button is for. An appliance that will not hand a value back
+ * publishes no state and the field is empty, which is the honest thing to show
+ * in that case.
  */
 /*
  * Whether the characters can be hidden WITHOUT `type="password"`.
@@ -45,26 +50,62 @@ const CSS_CAN_MASK =
   typeof CSS !== 'undefined' && typeof CSS.supports === 'function' && CSS.supports('-webkit-text-security', 'disc');
 
 class TextDeviceFeature extends Component {
-  state = { draft: null, revealed: false };
+  state = { draft: null, revealed: false, focused: false, lastStored: null };
 
   get isSecret() {
     return this.props.deviceFeature.type === DEVICE_FEATURE_TYPES.TEXT.SECRET;
   }
 
+  get stored() {
+    return this.props.deviceFeature.last_value_string || '';
+  }
+
   onInput = e => this.setState({ draft: e.target.value });
+
+  onFocus = () => this.setState({ focused: true });
+
+  /*
+   * Committed on BLUR, and never on `change`.
+   *
+   * `onChange` cannot be used here at all: preact/compat is loaded in this
+   * bundle, and its vnode hook rewrites `onChange` on a text input to
+   * `oninput` — then, finding `oninput` already taken by the handler above, to
+   * `oninputCapture`. So a handler written as "when editing finishes" ran
+   * before every single keystroke, which re-hid a revealed secret on the first
+   * character typed and sent a value to the appliance per letter.
+   */
+  onBlur = e => {
+    const value = e.target.value;
+    this.setState({ focused: false });
+    if (value !== this.stored) {
+      this.props.updateValueWithDebounce(this.props.deviceFeature, value);
+    }
+  };
+
+  onKeyDown = e => {
+    if (e.key === 'Enter') {
+      e.target.blur();
+    }
+  };
 
   toggleReveal = () => this.setState(previous => ({ revealed: !previous.revealed }));
 
-  commit = e => {
-    this.props.updateValueWithDebounce(this.props.deviceFeature, e.target.value);
-    // Back to showing the authoritative value, and masked again: revealing is
-    // a deliberate act each time rather than a mode the row stays in.
-    this.setState({ draft: null, revealed: false });
-  };
+  /*
+   * A value from the appliance replaces an uncommitted draft — that is how an
+   * Apply, a Revert or a refused change elsewhere on the form reaches this
+   * field. Not while the field has focus: somebody typing into it outranks a
+   * poll landing mid-word, so such a value is noted and not acted on.
+   */
+  static getDerivedStateFromProps(props, state) {
+    const stored = props.deviceFeature.last_value_string || '';
+    if (stored === state.lastStored) {
+      return null;
+    }
+    return state.focused ? { lastStored: stored } : { lastStored: stored, draft: null };
+  }
 
   render({ deviceFeature, rowName }, { draft, revealed }) {
-    const stored = deviceFeature.last_value_string || '';
-    const displayed = draft === null ? stored : draft;
+    const displayed = draft === null ? this.stored : draft;
 
     return (
       <tr>
@@ -85,10 +126,12 @@ class TextDeviceFeature extends Component {
                   'form-control text-right',
                   style.textInput,
                   this.isSecret && style.secretInput,
-                  this.isSecret && !revealed && CSS_CAN_MASK && style.masked,
+                  this.isSecret && !revealed && CSS_CAN_MASK && style.masked
                 )}
                 onInput={this.onInput}
-                onChange={this.commit}
+                onFocus={this.onFocus}
+                onBlur={this.onBlur}
+                onKeyDown={this.onKeyDown}
                 readOnly={deviceFeature.read_only}
               />
             </Localizer>
