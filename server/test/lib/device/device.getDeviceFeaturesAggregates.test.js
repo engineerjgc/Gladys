@@ -475,7 +475,9 @@ describe('Device.getDeviceFeaturesAggregates binary feature', function Describe(
     }
   });
 
-  it('should return the current unit of the device feature', async () => {
+  it('should return the current unit and working range of the device feature', async () => {
+    // The range travels with the unit so a chart can scale to what the
+    // instrument can read rather than to what it happened to read.
     await insertStates(120);
     const variable = {
       getValue: fake.resolves(null),
@@ -486,6 +488,8 @@ describe('Device.getDeviceFeaturesAggregates binary feature', function Describe(
         name: 'my-feature',
         selector: 'test-device-feature',
         unit: 'lux',
+        min: 0,
+        max: 1000,
       }),
     };
     const deviceInstance = new Device(event, {}, stateManager, {}, {}, variable, job);
@@ -493,6 +497,8 @@ describe('Device.getDeviceFeaturesAggregates binary feature', function Describe(
     expect(deviceFeature).to.deep.equal({
       name: 'my-feature',
       unit: 'lux',
+      min: 0,
+      max: 1000,
     });
   });
 });

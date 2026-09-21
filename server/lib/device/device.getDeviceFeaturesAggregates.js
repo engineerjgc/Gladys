@@ -164,6 +164,11 @@ async function getDeviceFeaturesAggregates(
     deviceFeature: {
       name: deviceFeature.name,
       unit: deviceFeature.unit,
+      // The WORKING RANGE, so a chart can scale to what the instrument can
+      // read rather than to what it happened to read. Both are NOT NULL on
+      // the feature, so this is always two numbers.
+      min: deviceFeature.min,
+      max: deviceFeature.max,
     },
     values,
   };
