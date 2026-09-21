@@ -1,4 +1,5 @@
 import DeviceRow from './DeviceRow';
+import { isFeatureEnabled } from '../../../utils/featureEnabledBy';
 import LightDeviceFeature from './device-features/light/LightDeviceFeature';
 import { buildDeviceRows } from './device-features/light/lightFeatures';
 import style from './style.css';
@@ -98,6 +99,11 @@ const DeviceCard = ({ children, ...props }) => {
                         updateValue={props.updateValue}
                         updateValueWithDebounce={props.updateValueWithDebounce}
                         intl={props.intl}
+                        // A row the box says is governed by another feature is
+                        // a reading while that feature disagrees. Resolved here
+                        // rather than in the widget: only this level knows the
+                        // box's other features and their live values.
+                        readOnlyByRule={!isFeatureEnabled(row.deviceFeature, box, deviceFeatures)}
                       />
                     )
                   )}

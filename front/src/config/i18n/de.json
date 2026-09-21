@@ -490,7 +490,9 @@
         "editDeviceFeaturesLabel": "Wähle die Geräte aus, die du anzeigen möchtest:",
         "editNameLabel": "Widget-Name (optional)",
         "editNamePlaceholder": "Gib den Namen des Widgets ein",
-        "addADeviceLabel": "Füge ein Gerät hinzu:"
+        "addADeviceLabel": "Füge ein Gerät hinzu:",
+        "enabledByLabel": "Aktiviert durch",
+        "enabledByAlways": "Immer"
       },
       "temperatureInRoom": {
         "editRoomLabel": "Wähle den Raum aus, den du hier anzeigen möchtest.",

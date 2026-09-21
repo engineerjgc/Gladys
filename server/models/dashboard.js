@@ -46,6 +46,22 @@ const boxSchema = Joi.object().keys({
   scenes: Joi.array().items(Joi.string()),
   // scene box: optional live status subtitle per scene button (scene selector -> device feature selector)
   scene_status_features: Joi.object().pattern(Joi.string(), Joi.string()),
+  /*
+   * devices box: a row that is only controllable while another feature reads a
+   * given value — `{ <feature selector>: { feature, value } }`.
+   *
+   * The case it exists for is an Auto/Manual mode beside the thing it governs:
+   * in Auto the plant's own logic owns the output and a person must be able to
+   * SEE it without being able to change it. Same shape as
+   * scene_status_features, which already points one selector at another.
+   */
+  feature_enabled_by: Joi.object().pattern(
+    Joi.string(),
+    Joi.object({
+      feature: Joi.string().allow(''),
+      value: Joi.string().allow(''),
+    }),
+  ),
   humidity_use_custom_value: Joi.boolean(),
   humidity_min: Joi.number(),
   humidity_max: Joi.number(),

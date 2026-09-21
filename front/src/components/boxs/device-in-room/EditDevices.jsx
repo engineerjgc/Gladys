@@ -28,6 +28,50 @@ class EditDevices extends Component {
     this.refreshDeviceFeaturesNames();
   };
 
+  /*
+   * Which feature governs a row, and at what value.
+   *
+   * Stored on the box rather than on the feature, because it is a statement
+   * about this dashboard: the same pump may be a control on a maintenance
+   * page and a reading on a wall panel. Cleared entirely when no governing
+   * feature is chosen, so an unused rule never lingers in the config.
+   */
+  updateEnabledBy = (selector, patch) => {
+    const current = { ...(this.props.box.feature_enabled_by || {}) };
+    const rule = { ...(current[selector] || {}), ...patch };
+    if (!rule.feature) {
+      delete current[selector];
+    } else {
+      current[selector] = { feature: rule.feature, value: rule.value === undefined ? '' : `${rule.value}` };
+    }
+    this.props.updateBoxConfig(this.props.x, this.props.y, { feature_enabled_by: current });
+  };
+
+  /*
+   * Every feature of this box, with the values it can hold — what the row
+   * pickers offer. A select carries its own options; anything else is read as
+   * a number, and for the binaries this is used with that is off and on.
+   */
+  governingFeatures = () => {
+    const bySelector = new Map();
+    (this.state.devices || []).forEach(device => {
+      (device.features || []).forEach(feature => {
+        bySelector.set(feature.selector, feature);
+      });
+    });
+    return (this.state.selectedDeviceFeaturesOptions || []).map(option => {
+      const feature = bySelector.get(option.value);
+      const supported = feature && Array.isArray(feature.supported_options) ? feature.supported_options : [];
+      const values = supported.length
+        ? supported.map(o => ({ value: `${o.value}`, label: o.label || `${o.value}` }))
+        : [
+            { value: '0', label: '0' },
+            { value: '1', label: '1' }
+          ];
+      return { selector: option.value, label: option.new_label || option.label, values };
+    });
+  };
+
   updateName = e => {
     this.props.updateBoxConfig(this.props.x, this.props.y, {
       name: e.target.value
@@ -201,6 +245,9 @@ class EditDevices extends Component {
                   moveDevice={this.moveDevice}
                   removeDevice={this.removeDevice}
                   updateDeviceFeatureName={this.updateDeviceFeatureName}
+                  governingFeatures={this.governingFeatures()}
+                  featureEnabledBy={props.box.feature_enabled_by || {}}
+                  updateEnabledBy={this.updateEnabledBy}
                 />
               )}
             </div>

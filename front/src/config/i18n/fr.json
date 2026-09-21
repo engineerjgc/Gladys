@@ -490,7 +490,9 @@
         "editDeviceFeaturesLabel": "Vous pouvez modifier le nom affiché ici :",
         "editNameLabel": "Nom du widget (optionnel)",
         "editNamePlaceholder": "Entrez le nom du widget",
-        "addADeviceLabel": "Ajouter un appareil :"
+        "addADeviceLabel": "Ajouter un appareil :",
+        "enabledByLabel": "Activé par",
+        "enabledByAlways": "Toujours"
       },
       "temperatureInRoom": {
         "editRoomLabel": "Sélectionnez la pièce que vous souhaitez afficher ici.",

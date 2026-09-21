@@ -135,8 +135,16 @@ const DeviceRow = ({ children, ...props }) => {
   const { device, deviceFeature } = props;
   const rowName = deviceFeature.new_label || getDeviceName(device, deviceFeature);
 
-  // if device is a sensor, we display the sensor deviceFeature
-  if (props.deviceFeature.read_only) {
+  /*
+   * A reading, either because the feature IS one or because the box says this
+   * row is not controllable right now (an Auto/Manual mode beside a pump).
+   *
+   * The same presentation serves both, which is the point: a greyed-out
+   * switch still says "this is a control", and a row nobody may operate is
+   * honestly a reading. Gladys has drawn read-only features this way since
+   * the beginning and there was no reason to invent a second look.
+   */
+  if (props.deviceFeature.read_only || props.readOnlyByRule) {
     return (
       <SensorDeviceFeature
         user={props.user}
