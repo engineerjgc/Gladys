@@ -9,8 +9,10 @@
  * Only when BOTH bounds are set, which is only when the box asks for a fixed
  * scale: an auto-scaled chart has no range worth drawing, and drawing its
  * data extent would make noise look like a boundary.
+ *
+ * `color` is the theme's muted colour, resolved by the caller from the page.
  */
-export const fixedRangeBand = (yAxisMin, yAxisMax) => {
+export const fixedRangeBand = (yAxisMin, yAxisMax, color = '#7c8396') => {
   if (!Number.isFinite(yAxisMin) || !Number.isFinite(yAxisMax) || yAxisMax <= yAxisMin) {
     return undefined;
   }
@@ -19,7 +21,7 @@ export const fixedRangeBand = (yAxisMin, yAxisMax) => {
       {
         y: yAxisMin,
         y2: yAxisMax,
-        fillColor: '#8a93a6',
+        fillColor: color,
         opacity: 0.1,
         borderColor: 'transparent',
         strokeDashArray: 0

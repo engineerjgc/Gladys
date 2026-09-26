@@ -32,6 +32,18 @@ const DEFAULT_COLORS_NAME = ['blue', 'red', 'green', 'yellow', 'purple', 'aqua',
 
 class ApexChartComponent extends Component {
   chartRef = createRef();
+
+  /*
+   * The fixed-scale range tint takes the THEME's muted colour, read from the
+   * page rather than written down, so it follows the theme. Read here because
+   * ApexCharts writes it into an SVG `fill` attribute, where a CSS variable
+   * does not resolve. The fallback is the theme's value at the time of writing.
+   */
+  rangeColor = () => {
+    const el = this.chartRef.current;
+    const v = el && window.getComputedStyle(el).getPropertyValue('--gl-muted').trim();
+    return v || '#7c8396';
+  };
   // One instance for the life of the chart, so the tooltip positioning state
   // (cursor position, observer) survives live data re-renders
   tooltipPositioning = createTooltipPositioning();
@@ -121,7 +133,8 @@ class ApexChartComponent extends Component {
       yAxisUnit: this.props.y_axis_unit,
       disableZoom: this.props.disable_zoom,
       yAxisMin: this.props.y_axis_min,
-      yAxisMax: this.props.y_axis_max
+      yAxisMax: this.props.y_axis_max,
+      yAxisRangeColor: this.rangeColor()
     });
     this.addDateFormatter(options);
     // Apply custom tooltip formatters if provided
@@ -155,7 +168,8 @@ class ApexChartComponent extends Component {
       locales: [fr, en, de],
       defaultLocale: this.props.user.language,
       yAxisMin: this.props.y_axis_min,
-      yAxisMax: this.props.y_axis_max
+      yAxisMax: this.props.y_axis_max,
+      yAxisRangeColor: this.rangeColor()
     });
     this.addDateFormatter(options);
 
@@ -178,7 +192,8 @@ class ApexChartComponent extends Component {
       locales: [fr, en, de],
       defaultLocale: this.props.user.language,
       yAxisMin: this.props.y_axis_min,
-      yAxisMax: this.props.y_axis_max
+      yAxisMax: this.props.y_axis_max,
+      yAxisRangeColor: this.rangeColor()
     });
     this.addDateFormatter(options);
     return options;
@@ -200,7 +215,8 @@ class ApexChartComponent extends Component {
       locales: [fr, en, de],
       defaultLocale: this.props.user.language,
       yAxisMin: this.props.y_axis_min,
-      yAxisMax: this.props.y_axis_max
+      yAxisMax: this.props.y_axis_max,
+      yAxisRangeColor: this.rangeColor()
     });
     this.addDateFormatter(options);
     return options;

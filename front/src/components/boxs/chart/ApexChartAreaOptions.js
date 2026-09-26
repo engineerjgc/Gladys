@@ -9,7 +9,8 @@ const getApexChartAreaOptions = ({
   locales,
   defaultLocale,
   yAxisMin,
-  yAxisMax
+  yAxisMax,
+  yAxisRangeColor
 }) => {
   const options = {
     chart: {
@@ -61,7 +62,7 @@ const getApexChartAreaOptions = ({
       },
       type: 'datetime'
     },
-    annotations: fixedRangeBand(yAxisMin, yAxisMax),
+    annotations: fixedRangeBand(yAxisMin, yAxisMax, yAxisRangeColor),
     yaxis: {
       /*
        * Pinned when the box asks for a fixed scale, automatic otherwise.
