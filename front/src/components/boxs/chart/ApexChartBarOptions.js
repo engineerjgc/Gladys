@@ -1,3 +1,4 @@
+import { fixedRangeBand } from './fixedRangeBand';
 import { yAxisFormatter } from './yAxisFormatter';
 
 const getApexChartBarOptions = ({
@@ -73,6 +74,7 @@ const getApexChartBarOptions = ({
       },
       type: 'datetime'
     },
+    annotations: fixedRangeBand(yAxisMin, yAxisMax),
     yaxis: {
       /*
        * Pinned when the box asks for a fixed scale, automatic otherwise.

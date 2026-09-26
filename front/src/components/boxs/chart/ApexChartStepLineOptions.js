@@ -1,3 +1,4 @@
+import { fixedRangeBand } from './fixedRangeBand';
 import { yAxisFormatter } from './yAxisFormatter';
 
 const getApexChartStepLineOptions = ({
@@ -58,6 +59,7 @@ const getApexChartStepLineOptions = ({
       },
       type: 'datetime'
     },
+    annotations: fixedRangeBand(yAxisMin, yAxisMax),
     yaxis: {
       /*
        * Pinned when the box asks for a fixed scale, automatic otherwise.
