@@ -865,7 +865,7 @@ class Chartbox extends Component {
               </div>
             )}
             {props.box.chart_type && (
-              <div>
+              <div class={style.edgeChart}>
                 {emptySeries === true && (
                   <div class={cx('text-center', style.bigEmptyState)}>
                     <div />

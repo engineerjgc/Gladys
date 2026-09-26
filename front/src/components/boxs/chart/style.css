@@ -320,3 +320,13 @@ a.dropdownItemChart:active {
     width: 2.5rem;
   }
 }
+
+/* An axis-less chart runs to the card's edges, so whatever it draws edge to
+   edge - the fixed-scale range tint - must stop at the card's rounded
+   corners. Clipped here rather than on the card, which would also clip the
+   interval menu that opens inside it. The radius is the card's, less its
+   1px border. */
+.edgeChart {
+  overflow: hidden;
+  border-radius: 0 0 calc(var(--gl-radius-lg, 3px) - 1px) calc(var(--gl-radius-lg, 3px) - 1px);
+}
